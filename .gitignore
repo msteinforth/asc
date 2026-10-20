@@ -1,0 +1,14 @@
+# Zugangsdaten und Geheimnisse
+asc/lib/config.php
+asc/admin/.htpasswd
+
+# Laufende Daten (nicht ins Repository)
+asc-data/buchungen.json
+asc-data/mails/
+asc-data/*.log
+asc-data/backup/
+
+# Test- und Systemdateien
+tests/tmp/
+.DS_Store
+*.swp

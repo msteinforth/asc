@@ -1,0 +1,2 @@
+# Falls dieser Ordner doch im Webroot liegt: niemals ausliefern.
+Require all denied

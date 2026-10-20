@@ -1,0 +1,290 @@
+/* ASC – Animal Sitter Club
+   Drei Farben: Orange (Akzent), Dunkelgrau (Text), Weiß (Fläche).
+   Helle Töne sind Abstufungen dieser Farben. */
+
+:root {
+  --orange: #c2410c;        /* auf Weiß 5,2:1 */
+  --orange-dunkel: #9a3412;
+  --orange-hell: #fff3eb;
+  --orange-rand: #fbd5bd;
+  --text: #2b2b2b;
+  --text-leise: #595959;    /* auf Weiß 7:1 */
+  --flaeche: #ffffff;
+  --linie: #e2dcd8;
+  --grau-hell: #f5f3f2;
+  --radius: 14px;
+  --schatten: 0 1px 2px rgb(0 0 0 / .06), 0 4px 14px rgb(0 0 0 / .06);
+  --schrift: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--schrift);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  color: var(--text);
+  background: var(--flaeche);
+}
+
+img, svg { max-width: 100%; height: auto; }
+
+a { color: var(--orange-dunkel); text-underline-offset: .15em; }
+a:hover { color: var(--orange); }
+
+:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; border-radius: 4px; }
+
+h1, h2, h3 { line-height: 1.2; margin: 0 0 .5em; }
+h1 { font-size: clamp(1.75rem, 5vw, 2.5rem); font-weight: 800; }
+h2 { font-size: clamp(1.3rem, 3.6vw, 1.7rem); font-weight: 750; margin-top: 1.6em; }
+h3 { font-size: 1.15rem; }
+p { margin: 0 0 1em; }
+
+.container { width: min(100% - 32px, 1040px); margin-inline: auto; }
+.schmal { width: min(100% - 32px, 720px); }
+
+.skip-link {
+  position: absolute; left: -9999px; top: 0;
+  background: var(--text); color: #fff; padding: .5rem 1rem; z-index: 100;
+}
+.skip-link:focus { left: 8px; top: 8px; }
+
+/* ---------- Kopf & Navigation ---------- */
+.kopf { border-bottom: 1px solid var(--linie); background: var(--flaeche); position: sticky; top: 0; z-index: 10; }
+.kopf-innen { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 64px; }
+.logo-link { display: inline-flex; }
+.logo-link img { width: 130px; height: auto; display: block; }
+
+.nav-schalter {
+  display: none; background: none; border: 2px solid var(--linie); border-radius: 10px;
+  padding: .4rem .7rem; font: inherit; font-weight: 600; color: var(--text); cursor: pointer;
+}
+.nav ul { list-style: none; display: flex; gap: .25rem; margin: 0; padding: 0; flex-wrap: wrap; }
+.nav a {
+  display: block; padding: .5rem .75rem; border-radius: 10px; text-decoration: none;
+  color: var(--text); font-weight: 600;
+}
+.nav a:hover { background: var(--orange-hell); color: var(--orange-dunkel); }
+.nav a[aria-current="page"] { color: var(--orange-dunkel); background: var(--orange-hell); }
+
+@media (max-width: 760px) {
+  .nav-schalter { display: inline-block; }
+  .nav { display: none; position: absolute; left: 0; right: 0; top: 100%; background: var(--flaeche); border-bottom: 1px solid var(--linie); padding: .5rem 16px 1rem; box-shadow: var(--schatten); }
+  .nav.offen { display: block; }
+  .nav ul { flex-direction: column; }
+  .nav a { padding: .75rem; }
+}
+
+/* ---------- Buttons ---------- */
+.button {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  min-height: 48px; padding: .7rem 1.4rem; border-radius: 999px; border: 2px solid var(--orange);
+  background: var(--orange); color: #fff; font: inherit; font-weight: 700; text-decoration: none;
+  cursor: pointer; transition: background .15s, border-color .15s;
+}
+.button:hover { background: var(--orange-dunkel); border-color: var(--orange-dunkel); color: #fff; }
+.button-zweit { background: var(--flaeche); color: var(--orange-dunkel); }
+.button-zweit:hover { background: var(--orange-hell); color: var(--orange-dunkel); }
+.button[disabled] { opacity: .55; cursor: not-allowed; }
+.button-reihe { display: flex; flex-wrap: wrap; gap: .75rem; margin: 1.25rem 0; }
+.button-klein { min-height: 36px; padding: .35rem .9rem; font-size: .95rem; }
+
+/* ---------- Bereiche ---------- */
+main { padding-bottom: 3rem; }
+.held { padding: 2rem 0 1.5rem; }
+.held-raster { display: grid; gap: 1.5rem; align-items: center; }
+@media (min-width: 800px) { .held-raster { grid-template-columns: 1.2fr .8fr; padding-top: 1.5rem; } }
+.held .lead { font-size: 1.2rem; color: var(--text-leise); max-width: 36em; }
+.held-bild { max-width: 360px; justify-self: center; }
+
+.band { background: var(--orange-hell); padding: 2rem 0; margin: 2rem 0; }
+.band h2 { margin-top: 0; }
+
+.kacheln { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); margin: 1rem 0; }
+.karte {
+  background: var(--flaeche); border: 1px solid var(--linie); border-radius: var(--radius);
+  padding: 1.25rem; box-shadow: var(--schatten);
+}
+.karte h3 { margin-top: .25rem; }
+.karte .icon { width: 64px; height: 64px; }
+.karte .preis-ab { font-weight: 700; color: var(--orange-dunkel); }
+
+.schritte { counter-reset: schritt; list-style: none; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.schritte li { counter-increment: schritt; position: relative; padding: 1rem 1rem 1rem 3.75rem; background: var(--flaeche); border-radius: var(--radius); border: 1px solid var(--linie); }
+.schritte li::before {
+  content: counter(schritt); position: absolute; left: 1rem; top: 1rem;
+  width: 2.1rem; height: 2.1rem; border-radius: 50%; background: var(--orange); color: #fff;
+  display: grid; place-items: center; font-weight: 800;
+}
+
+.vertrauen { list-style: none; padding: 0; display: grid; gap: .6rem; }
+.vertrauen li { padding-left: 2rem; position: relative; }
+.vertrauen li::before { content: ""; position: absolute; left: 0; top: .2em; width: 1.25rem; height: 1.25rem; background: url("favicon.svg") center / contain no-repeat; }
+
+/* ---------- Tabellen ---------- */
+.tabelle-rahmen { overflow-x: auto; border: 1px solid var(--linie); border-radius: var(--radius); }
+table { border-collapse: collapse; width: 100%; }
+th, td { text-align: left; padding: .7rem .9rem; border-bottom: 1px solid var(--linie); vertical-align: top; }
+thead th { background: var(--grau-hell); font-size: .95rem; }
+tbody tr:last-child td { border-bottom: 0; }
+td.zahl, th.zahl { text-align: right; white-space: nowrap; }
+.preis-tabelle .preis { font-weight: 800; font-size: 1.1rem; white-space: nowrap; }
+.etikett {
+  display: inline-block; font-size: .8rem; font-weight: 700; padding: .1rem .55rem; border-radius: 999px;
+  background: var(--grau-hell); color: var(--text); white-space: nowrap;
+}
+.etikett.direkt { background: var(--orange-hell); color: var(--orange-dunkel); border: 1px solid var(--orange-rand); }
+
+/* Tarife als Karten auf schmalen Bildschirmen */
+@media (max-width: 640px) {
+  .preis-tabelle thead { display: none; }
+  .preis-tabelle, .preis-tabelle tbody, .preis-tabelle tr, .preis-tabelle td { display: block; width: 100%; }
+  .preis-tabelle tr { padding: .9rem; border-bottom: 1px solid var(--linie); }
+  .preis-tabelle tr:last-child { border-bottom: 0; }
+  .preis-tabelle td { border: 0; padding: .15rem 0; }
+  .preis-tabelle td.zahl { text-align: left; }
+}
+
+/* ---------- Team ---------- */
+.team { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.team .karte { text-align: center; }
+.team .avatar { width: 120px; height: 120px; border-radius: 50%; background: var(--orange-hell); margin: 0 auto .75rem; display: grid; place-items: center; }
+.team .avatar svg { width: 84px; height: 84px; }
+.team .alter { color: var(--text-leise); font-weight: 600; }
+
+/* ---------- Formulare ---------- */
+.formular { display: grid; gap: 1.1rem; }
+fieldset { border: 1px solid var(--linie); border-radius: var(--radius); padding: 1rem 1.1rem 1.2rem; margin: 0; display: grid; gap: 1rem; }
+legend { font-weight: 800; padding: 0 .4rem; font-size: 1.1rem; }
+.feld { display: grid; gap: .3rem; }
+.feld-reihe { display: grid; gap: 1rem; }
+@media (min-width: 560px) { .feld-reihe { grid-template-columns: 1fr 1fr; } }
+label, .label { font-weight: 650; }
+.optional { font-weight: 400; color: var(--text-leise); }
+.hilfe { font-size: .92rem; color: var(--text-leise); margin: 0; }
+
+input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="number"],
+input[type="password"], select, textarea {
+  width: 100%; font: inherit; color: var(--text); background: var(--flaeche);
+  border: 2px solid #8a817c; border-radius: 10px; padding: .65rem .75rem; min-height: 48px;
+}
+textarea { min-height: 96px; resize: vertical; }
+input:focus, select:focus, textarea:focus { border-color: var(--orange); outline: 3px solid var(--orange-rand); outline-offset: 0; }
+[aria-invalid="true"] { border-color: #b42318 !important; }
+.fehler-text { color: #b42318; font-weight: 600; font-size: .95rem; margin: 0; }
+
+.auswahl { display: flex; align-items: flex-start; gap: .6rem; font-weight: 500; cursor: pointer; }
+.auswahl input { width: 1.3rem; height: 1.3rem; margin: .15rem 0 0; accent-color: var(--orange); flex: none; }
+.auswahl-gruppe { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; }
+
+.honig { position: absolute !important; left: -10000px !important; width: 1px; height: 1px; overflow: hidden; }
+
+.preisbox {
+  background: var(--orange-hell); border: 1px solid var(--orange-rand); border-radius: var(--radius);
+  padding: 1rem 1.1rem;
+}
+.preisbox .gesamt { font-size: 1.5rem; font-weight: 800; color: var(--orange-dunkel); margin: 0; }
+.preisbox ul { margin: .4rem 0 0; padding-left: 1.1rem; color: var(--text-leise); font-size: .95rem; }
+.preisbox .klein { font-size: .9rem; color: var(--text-leise); margin: .4rem 0 0; }
+
+.hinweis { border-radius: var(--radius); padding: .9rem 1.1rem; margin: 1rem 0; border: 1px solid var(--linie); background: var(--grau-hell); }
+.hinweis.erfolg { background: #edf7ef; border-color: #a7d3b0; }
+.hinweis.fehler { background: #fdecea; border-color: #f2b8b5; color: #8c1d18; }
+.hinweis.warnung { background: var(--orange-hell); border-color: var(--orange-rand); }
+
+/* ---------- Kalender ---------- */
+.kalender { border: 1px solid var(--linie); border-radius: var(--radius); padding: .75rem; background: var(--flaeche); }
+.kalender-kopf { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-bottom: .5rem; }
+.kalender-kopf h3 { margin: 0; font-size: 1.1rem; }
+.kalender-kopf button {
+  width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--linie); background: var(--flaeche);
+  font-size: 1.2rem; font-weight: 700; cursor: pointer; color: var(--text);
+}
+.kalender-kopf button:disabled { opacity: .35; cursor: not-allowed; }
+.kalender-raster { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.kalender-raster .wt { text-align: center; font-size: .8rem; font-weight: 700; color: var(--text-leise); padding: .25rem 0; }
+.kalender-raster button, .kalender-raster .leer {
+  aspect-ratio: 1 / 1; min-height: 40px; border-radius: 10px; font: inherit; font-weight: 600;
+  border: 2px solid transparent; background: var(--grau-hell); color: #8a817c; position: relative;
+}
+.kalender-raster .leer { background: transparent; }
+.kalender-raster button.frei { background: var(--orange-hell); border-color: var(--orange-rand); color: var(--orange-dunkel); cursor: pointer; }
+.kalender-raster button.frei:hover { border-color: var(--orange); }
+.kalender-raster button.voll { background: var(--grau-hell); color: #6b6461; text-decoration: line-through; }
+.kalender-raster button[aria-pressed="true"] { background: var(--orange); border-color: var(--orange); color: #fff; }
+.kalender-raster button:disabled { cursor: default; }
+.kalender-raster button.heute::after { content: ""; position: absolute; left: 50%; bottom: 5px; width: 5px; height: 5px; margin-left: -2.5px; border-radius: 50%; background: currentColor; }
+.kalender-legende { display: flex; flex-wrap: wrap; gap: .4rem 1rem; font-size: .88rem; color: var(--text-leise); margin: .6rem 0 0; padding: 0; list-style: none; }
+.kalender-legende span { display: inline-block; width: .9rem; height: .9rem; border-radius: 4px; vertical-align: -2px; margin-right: .3rem; border: 2px solid transparent; }
+.kalender-legende .l-frei { background: var(--orange-hell); border-color: var(--orange-rand); }
+.kalender-legende .l-voll { background: var(--grau-hell); }
+.kalender-legende .l-gewaehlt { background: var(--orange); }
+
+.zeitfenster { display: flex; flex-wrap: wrap; gap: .5rem; }
+.zeitfenster label {
+  display: inline-flex; align-items: center; gap: .45rem; padding: .55rem .9rem; border-radius: 999px;
+  border: 2px solid var(--orange-rand); background: var(--orange-hell); color: var(--orange-dunkel); font-weight: 700; cursor: pointer;
+}
+.zeitfenster input { accent-color: var(--orange); width: 1.1rem; height: 1.1rem; margin: 0; }
+.zeitfenster label:has(input:checked) { background: var(--orange); border-color: var(--orange); color: #fff; }
+.zeitfenster label.belegt { background: var(--grau-hell); border-color: var(--linie); color: #6b6461; cursor: not-allowed; text-decoration: line-through; }
+
+.buchen-raster { display: grid; gap: 1.5rem; }
+@media (min-width: 900px) { .buchen-raster { grid-template-columns: 380px 1fr; align-items: start; } .buchen-raster .kalender-spalte { position: sticky; top: 84px; } }
+
+/* ---------- Fuß ---------- */
+.fuss { border-top: 1px solid var(--linie); padding: 2rem 0; font-size: .95rem; color: var(--text-leise); background: var(--grau-hell); }
+.fuss-innen { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; }
+.fuss ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; }
+
+.zusammenfassung { white-space: pre-wrap; font-family: inherit; margin: 0; }
+.rechtstext h2 { font-size: 1.25rem; }
+.platzhalter { background: #fff8c5; padding: 0 .2em; border-radius: 3px; }
+
+/* ---------- Admin ---------- */
+.admin-nav { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0 1.5rem; }
+.admin-nav a { padding: .45rem .9rem; border-radius: 999px; border: 2px solid var(--linie); text-decoration: none; font-weight: 600; color: var(--text); }
+.admin-nav a[aria-current="page"] { border-color: var(--orange); background: var(--orange-hell); color: var(--orange-dunkel); }
+.status { font-weight: 700; font-size: .8rem; padding: .15rem .55rem; border-radius: 999px; white-space: nowrap; }
+.status-offen { background: #fff8c5; color: #6b5300; }
+.status-bestaetigt { background: #edf7ef; color: #1e5b2c; }
+.status-abgelehnt { background: #fdecea; color: #8c1d18; }
+.status-erledigt { background: var(--grau-hell); color: var(--text-leise); }
+.filter { display: flex; flex-wrap: wrap; gap: .5rem; align-items: end; margin-bottom: 1rem; }
+.filter .feld { min-width: 160px; }
+.inline-form { display: inline; }
+.admin-kalender { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+.admin-kalender .wt { text-align: center; font-size: .8rem; font-weight: 700; color: var(--text-leise); }
+.admin-kalender a, .admin-kalender .leer {
+  min-height: 74px; border-radius: 10px; padding: .3rem .4rem; font-size: .78rem; line-height: 1.25;
+  text-decoration: none; color: var(--text); background: var(--grau-hell); border: 2px solid transparent; overflow: hidden;
+}
+.admin-kalender .leer { background: transparent; }
+.admin-kalender a b { display: block; font-size: .95rem; }
+.admin-kalender a.frei { background: var(--orange-hell); border-color: var(--orange-rand); }
+.admin-kalender a.gesperrt { background: #fdecea; }
+.admin-kalender a.gewaehlt { border-color: var(--orange); }
+.admin-kalender a.manuell { box-shadow: inset 0 -4px 0 var(--orange); }
+.admin-kalender .vergangen { opacity: .5; }
+.detail-raster { display: grid; gap: 1rem; }
+@media (min-width: 900px) { .detail-raster { grid-template-columns: 1fr 1fr; } }
+dl.daten { display: grid; grid-template-columns: max-content 1fr; gap: .3rem 1rem; margin: 0; }
+dl.daten dt { font-weight: 700; }
+dl.daten dd { margin: 0; white-space: pre-wrap; }
+.klein { font-size: .9rem; color: var(--text-leise); }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+
+/* Startseiten-Illustration */
+.held-bild { position: relative; width: 100%; max-width: 340px; aspect-ratio: 34 / 30; }
+.held-bild img { position: absolute; }
+.held-bild .b-hund { left: 0; top: 18%; width: 62%; }
+.held-bild .b-katze { right: 0; top: 0; width: 46%; }
+.held-bild .b-klein { right: 8%; bottom: 0; width: 34%; }
+@media (max-width: 799px) { .held-bild { max-width: 240px; } }
+.h3 { font-size: 1.15rem; margin-top: 0; }

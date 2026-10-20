@@ -1,0 +1,11 @@
+# Admin-Bereich: HTTP Basic Auth
+# AuthUserFile braucht den ABSOLUTEN Pfad auf dem Strato-Server, z. B.
+#   /mnt/web123/a1/23/51234567/htdocs/asc/admin/.htpasswd
+# (Pfad steht im Strato-Kundencenter oder per <?php echo __DIR__; ?> herausfinden.)
+# .htpasswd erzeugen:  htpasswd -c .htpasswd matthias
+#                oder: php -r "echo 'matthias:' . password_hash('PASSWORT', PASSWORD_BCRYPT), PHP_EOL;" > .htpasswd
+
+AuthType Basic
+AuthName "ASC Admin"
+AuthUserFile /ABSOLUTER/PFAD/ZU/asc/admin/.htpasswd
+Require valid-user

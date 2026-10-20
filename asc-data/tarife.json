@@ -1,0 +1,199 @@
+{
+    "hinweis": "Preise sind Platzhalter und werden vor dem Start von der Familie festgelegt. Felder: art = direkt|anfrage, abrechnung = pro-termin|pro-tag|pro-wochenende, Zuschlag-Regel = pro-weiteres-tier|sonn-feiertag|optional.",
+    "tarife": [
+        {
+            "id": "gassi-30",
+            "name": "Gassi kurz",
+            "beschreibung": "Spaziergang in der Nachbarschaft, Abholung zuhause",
+            "art": "direkt",
+            "einheit": "30 Min",
+            "abrechnung": "pro-termin",
+            "preis": 5,
+            "tierarten": [
+                "hund"
+            ],
+            "zuschlaege": [
+                {
+                    "id": "weiteres-tier",
+                    "name": "zweites Tier",
+                    "preis": 3,
+                    "regel": "pro-weiteres-tier"
+                },
+                {
+                    "id": "sonn-feiertag",
+                    "name": "Sonn-/Feiertag",
+                    "preis": 2,
+                    "regel": "sonn-feiertag"
+                },
+                {
+                    "id": "abholung-extern",
+                    "name": "Abholung außerhalb unseres Gebiets",
+                    "preis": 2,
+                    "regel": "optional"
+                }
+            ],
+            "aktiv": true
+        },
+        {
+            "id": "gassi-60",
+            "name": "Gassi lang",
+            "beschreibung": "Längere Runde, auch Feld/Wald",
+            "art": "direkt",
+            "einheit": "60 Min",
+            "abrechnung": "pro-termin",
+            "preis": 8,
+            "tierarten": [
+                "hund"
+            ],
+            "zuschlaege": [
+                {
+                    "id": "weiteres-tier",
+                    "name": "zweites Tier",
+                    "preis": 3,
+                    "regel": "pro-weiteres-tier"
+                },
+                {
+                    "id": "sonn-feiertag",
+                    "name": "Sonn-/Feiertag",
+                    "preis": 2,
+                    "regel": "sonn-feiertag"
+                },
+                {
+                    "id": "abholung-extern",
+                    "name": "Abholung außerhalb unseres Gebiets",
+                    "preis": 2,
+                    "regel": "optional"
+                }
+            ],
+            "aktiv": true
+        },
+        {
+            "id": "katzenbesuch",
+            "name": "Katzenbesuch",
+            "beschreibung": "Füttern, Katzenklo, Spielen, ca. 30 Min",
+            "art": "direkt",
+            "einheit": "1 Besuch",
+            "abrechnung": "pro-termin",
+            "preis": 5,
+            "tierarten": [
+                "katze"
+            ],
+            "zuschlaege": [
+                {
+                    "id": "weiteres-tier",
+                    "name": "zweite Katze",
+                    "preis": 1,
+                    "regel": "pro-weiteres-tier"
+                },
+                {
+                    "id": "sonn-feiertag",
+                    "name": "Sonn-/Feiertag",
+                    "preis": 2,
+                    "regel": "sonn-feiertag"
+                }
+            ],
+            "aktiv": true
+        },
+        {
+            "id": "tagesbetreuung",
+            "name": "Tagesbetreuung",
+            "beschreibung": "Hund oder Kleintier tagsüber bei uns oder beim Halter",
+            "art": "anfrage",
+            "einheit": "1 Tag",
+            "abrechnung": "pro-tag",
+            "preis": 15,
+            "tierarten": [
+                "hund",
+                "kleintier"
+            ],
+            "zuschlaege": [
+                {
+                    "id": "weiteres-tier",
+                    "name": "zweites Tier",
+                    "preis": 5,
+                    "regel": "pro-weiteres-tier"
+                },
+                {
+                    "id": "sonn-feiertag",
+                    "name": "Sonn-/Feiertag",
+                    "preis": 3,
+                    "regel": "sonn-feiertag"
+                }
+            ],
+            "aktiv": true
+        },
+        {
+            "id": "wochenende",
+            "name": "Wochenendbetreuung",
+            "beschreibung": "Komplettbetreuung Fr–So inkl. Füttern und Gassi",
+            "art": "anfrage",
+            "einheit": "Fr–So",
+            "abrechnung": "pro-wochenende",
+            "preis": 35,
+            "tierarten": [
+                "hund",
+                "katze",
+                "kleintier",
+                "sonstiges"
+            ],
+            "zuschlaege": [
+                {
+                    "id": "weiteres-tier",
+                    "name": "zweites Tier",
+                    "preis": 10,
+                    "regel": "pro-weiteres-tier"
+                }
+            ],
+            "aktiv": true
+        },
+        {
+            "id": "ferien",
+            "name": "Ferienbetreuung",
+            "beschreibung": "Längere Zeiträume, Staffelpreis ab 7 Tagen",
+            "art": "anfrage",
+            "einheit": "pro Tag",
+            "abrechnung": "pro-tag",
+            "preis": 12,
+            "staffel": {
+                "abTagen": 7,
+                "preis": 10
+            },
+            "tierarten": [
+                "hund",
+                "katze",
+                "kleintier",
+                "sonstiges"
+            ],
+            "zuschlaege": [
+                {
+                    "id": "weiteres-tier",
+                    "name": "zweites Tier",
+                    "preis": 3,
+                    "regel": "pro-weiteres-tier"
+                }
+            ],
+            "aktiv": true
+        },
+        {
+            "id": "kleintier",
+            "name": "Kleintier-Service",
+            "beschreibung": "Hamster, Meerschweinchen, Kaninchen, Fische: Füttern und Käfig",
+            "art": "anfrage",
+            "einheit": "pro Tag",
+            "abrechnung": "pro-tag",
+            "preis": 4,
+            "tierarten": [
+                "kleintier"
+            ],
+            "zuschlaege": [
+                {
+                    "id": "weiteres-tier",
+                    "name": "weiteres Gehege/Aquarium",
+                    "preis": 1,
+                    "regel": "pro-weiteres-tier"
+                }
+            ],
+            "aktiv": true
+        }
+    ]
+}

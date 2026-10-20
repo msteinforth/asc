@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gassi buchen – ASC Animal Sitter Club</title>
+  <meta name="description" content="Wähle einen freien Tag und ein Zeitfenster für Gassi oder einen Katzenbesuch und buche direkt online.">
+  <meta name="theme-color" content="#c2410c">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script src="/assets/app.js" defer></script>
+</head>
+<body data-seite="buchen">
+<a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
+<header class="kopf">
+  <div class="container kopf-innen">
+    <a href="/" class="logo-link"><img src="/assets/logo.svg" alt="ASC – Animal Sitter Club, zur Startseite" width="130" height="45"></a>
+    <button class="nav-schalter" type="button" aria-expanded="false" aria-controls="hauptnav">Menü</button>
+    <nav class="nav" id="hauptnav" aria-label="Hauptnavigation">
+      <ul>
+        <li><a href="/">Start</a></li>
+        <li><a href="/preise">Leistungen &amp; Preise</a></li>
+        <li><a href="/team">Team</a></li>
+        <li><a href="/buchen" aria-current="page">Gassi buchen</a></li>
+        <li><a href="/anfrage">Betreuung anfragen</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="inhalt">
+<div class="container">
+  <h1>Gassi &amp; Katzenbesuch buchen</h1>
+  <p>Wähle einen freien Tag und ein Zeitfenster. Wir bestätigen deine Buchung innerhalb von 24 Stunden per E-Mail. Für längere Betreuungen nutze bitte die <a href="/anfrage">Betreuungsanfrage</a>.</p>
+
+  <form class="formular" id="buchen-form" action="/api/buchen.php" method="post" novalidate data-formular="gassi">
+    <div class="hinweis fehler" id="formular-fehler" role="alert" hidden></div>
+    <div class="buchen-raster">
+      <div class="kalender-spalte">
+        <fieldset>
+          <legend>1. Tag &amp; Zeit</legend>
+          <div class="kalender" id="kalender" data-kalender>
+            <p>Der Kalender wird geladen …</p>
+            <noscript><p class="hinweis warnung">Für den Kalender wird JavaScript benötigt. Du kannst uns auch eine Mail an <a href="mailto:asc@steinforth.com">asc@steinforth.com</a> schreiben.</p></noscript>
+          </div>
+          <input type="hidden" name="datum" id="datum">
+          <div class="feld" id="zeitfenster-feld" hidden>
+            <span class="label" id="zeitfenster-label">Zeitfenster am <span id="gewaehlter-tag"></span></span>
+            <div class="zeitfenster" id="zeitfenster" role="radiogroup" aria-labelledby="zeitfenster-label"></div>
+          </div>
+          <p class="fehler-text" data-fehler-fuer="datum" hidden></p>
+        </fieldset>
+      </div>
+
+      <div class="formular">
+        <fieldset>
+          <legend>2. Leistung</legend>
+          <div class="feld">
+            <label for="tarifId">Was sollen wir machen?</label>
+            <select id="tarifId" name="tarifId" required data-tarife="direkt"></select>
+            <p class="fehler-text" data-fehler-fuer="tarifId" hidden></p>
+          </div>
+          <div class="feld">
+            <label for="anzahlTiere">Anzahl Tiere</label>
+            <select id="anzahlTiere" name="anzahlTiere">
+              <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+            </select>
+          </div>
+          <div class="feld" id="optionen" data-optionen></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>3. Dein Tier</legend>
+          <div class="feld-reihe">
+            <div class="feld">
+              <label for="tierName">Name des Tiers</label>
+              <input type="text" id="tierName" name="tierName" required maxlength="60" autocomplete="off">
+              <p class="fehler-text" data-fehler-fuer="tierName" hidden></p>
+            </div>
+            <div class="feld">
+              <label for="rasse">Rasse <span class="optional">(optional)</span></label>
+              <input type="text" id="rasse" name="rasse" maxlength="80" autocomplete="off">
+            </div>
+          </div>
+          <div class="feld">
+            <span class="label" id="groesse-label">Größe</span>
+            <div class="auswahl-gruppe" role="radiogroup" aria-labelledby="groesse-label">
+              <label class="auswahl"><input type="radio" name="groesse" value="klein" checked> klein (bis 10 kg)</label>
+              <label class="auswahl"><input type="radio" name="groesse" value="mittel"> mittel (10–25 kg)</label>
+              <label class="auswahl"><input type="radio" name="groesse" value="gross"> groß (über 25 kg)</label>
+            </div>
+          </div>
+          <div class="feld">
+            <label for="hinweise">Besonderheiten <span class="optional">(optional)</span></label>
+            <textarea id="hinweise" name="hinweise" maxlength="2000" aria-describedby="hinweise-hilfe"></textarea>
+            <p class="hilfe" id="hinweise-hilfe">Zieht dein Hund an der Leine? Verträgt er sich mit anderen Hunden? Braucht er Medikamente? Wo ist der Schlüssel?</p>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>4. Deine Kontaktdaten</legend>
+          <div class="feld">
+            <label for="name">Dein Name</label>
+            <input type="text" id="name" name="name" required maxlength="100" autocomplete="name">
+            <p class="fehler-text" data-fehler-fuer="name" hidden></p>
+          </div>
+          <div class="feld-reihe">
+            <div class="feld">
+              <label for="telefon">Telefon</label>
+              <input type="tel" id="telefon" name="telefon" required maxlength="40" autocomplete="tel" inputmode="tel">
+              <p class="fehler-text" data-fehler-fuer="telefon" hidden></p>
+            </div>
+            <div class="feld">
+              <label for="email">E-Mail</label>
+              <input type="email" id="email" name="email" required maxlength="150" autocomplete="email">
+              <p class="fehler-text" data-fehler-fuer="email" hidden></p>
+            </div>
+          </div>
+          <div class="feld-reihe">
+            <div class="feld">
+              <label for="strasse">Straße und Hausnummer</label>
+              <input type="text" id="strasse" name="strasse" required maxlength="120" autocomplete="street-address">
+              <p class="fehler-text" data-fehler-fuer="strasse" hidden></p>
+            </div>
+            <div class="feld">
+              <label for="ort">Ort</label>
+              <input type="text" id="ort" name="ort" required maxlength="80" autocomplete="address-level2">
+              <p class="fehler-text" data-fehler-fuer="ort" hidden></p>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="preisbox" aria-live="polite" id="preisbox">
+          <p class="gesamt">Preis: <span id="preis-gesamt">–</span></p>
+          <ul id="preis-posten"></ul>
+          <p class="klein">Endpreis, bezahlt wird nach der Leistung.</p>
+        </div>
+
+        <div class="feld">
+          <label class="auswahl"><input type="checkbox" name="datenschutz" value="1" required> <span>Ich habe die <a href="/datenschutz" target="_blank">Datenschutzhinweise</a> gelesen und bin einverstanden, dass meine Angaben zur Bearbeitung der Buchung gespeichert werden.</span></label>
+          <p class="fehler-text" data-fehler-fuer="datenschutz" hidden></p>
+        </div>
+
+        <div class="honig" aria-hidden="true">
+          <label for="website">Bitte leer lassen</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+        </div>
+        <input type="hidden" name="formToken" data-form-token>
+
+        <div>
+          <button class="button" type="submit">Verbindlich anfragen</button>
+          <p class="hilfe">Du bekommst sofort eine Eingangsbestätigung per E-Mail. Verbindlich wird der Termin mit unserer Bestätigung.</p>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+</main>
+<footer class="fuss">
+  <div class="container fuss-innen">
+    <p><strong>ASC – Animal Sitter Club</strong><br>
+      Tierbetreuung aus der Nachbarschaft.<br>
+      Fragen? <a href="mailto:asc@steinforth.com">asc@steinforth.com</a></p>
+    <ul>
+      <li><a href="/preise#bedingungen">Buchungsbedingungen</a></li>
+      <li><a href="/impressum">Impressum</a></li>
+      <li><a href="/datenschutz">Datenschutz</a></li>
+    </ul>
+  </div>
+</footer>
+</body>
+</html>

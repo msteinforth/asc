@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 232 72" role="img" aria-labelledby="t">
+  <title id="t">ASC – Animal Sitter Club</title>
+  <g fill="#c2410c">
+    <ellipse cx="36" cy="46" rx="15" ry="13"/>
+    <ellipse cx="17" cy="28" rx="6.5" ry="8.5" transform="rotate(-20 17 28)"/>
+    <ellipse cx="29" cy="16" rx="6.5" ry="9"/>
+    <ellipse cx="44" cy="16" rx="6.5" ry="9"/>
+    <ellipse cx="56" cy="28" rx="6.5" ry="8.5" transform="rotate(20 56 28)"/>
+  </g>
+  <text x="72" y="50" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="40" font-weight="800" letter-spacing="1" fill="#2b2b2b">ASC</text>
+  <text x="73" y="66" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="11.5" font-weight="600" letter-spacing="1.2" fill="#2b2b2b">ANIMAL SITTER CLUB</text>
+</svg>
