@@ -218,7 +218,7 @@ $offen = count(array_filter($buchungen, fn($b) => $b['status'] === 'offen'));
 <body>
 <header class="kopf">
   <div class="container kopf-innen">
-    <a href="/admin/" class="logo-link" aria-label="ASC Admin"><img class="logo-hell" src="/assets/logo.svg" alt="" width="111" height="48"><img class="logo-dunkel" src="/assets/logo-inverse.svg" alt="" width="111" height="48"></a>
+    <a href="/admin/" class="logo-link"><picture><source media="(prefers-color-scheme: dark)" srcset="/assets/logo-inverse.svg"><img src="/assets/logo.svg" alt="ASC Admin" width="217" height="56"></picture></a>
     <a href="/" class="klein">Zur Webseite</a>
   </div>
 </header>

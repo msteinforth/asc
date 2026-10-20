@@ -7,6 +7,7 @@
 @font-face { font-family: "Fredoka"; src: url("fonts/Fredoka-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
 @font-face { font-family: "Fredoka"; src: url("fonts/Fredoka-SemiBold.woff2") format("woff2"); font-weight: 600; font-display: swap; }
 @font-face { font-family: "Fredoka"; src: url("fonts/Fredoka-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Patrick Hand"; src: url("fonts/PatrickHand-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
 
 /* ---------- Tokens (aus tokens.json) ---------- */
 :root {
@@ -35,6 +36,7 @@
   --status-danger: #c0392b;
 
   --font-sans: "Fredoka", "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+  --font-hand: "Patrick Hand", "Comic Sans MS", "Segoe Print", cursive;
 
   --space-1: 4px;
   --space-2: 8px;
@@ -125,14 +127,13 @@ p { margin: 0 0 var(--space-4); }
 
 /* ---------- Kopf & Navigation ---------- */
 .kopf { background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10; }
-.kopf-innen { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); min-height: 68px; }
-.logo-link { display: inline-flex; padding: var(--space-1) 0; }
-.logo-link img { height: 48px; width: auto; display: block; }
-.logo-hell { display: block; }
-.logo-dunkel { display: none !important; }
-@media (prefers-color-scheme: dark) {
-  .logo-hell { display: none !important; }
-  .logo-dunkel { display: block !important; }
+.kopf-innen { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); min-height: 80px; }
+/* Logo: breite Form ab 801px (mind. 56px hoch), sonst die kompakte Form (40px) */
+.logo-link { display: inline-flex; padding: var(--space-2) 0; }
+.logo-link img { height: 56px; width: auto; display: block; }
+@media (max-width: 800px) {
+  .kopf-innen { min-height: 64px; }
+  .logo-link img { height: 40px; }
 }
 
 .nav-schalter {
@@ -351,7 +352,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 .zeitfenster label.belegt { background: var(--surface-sunken); border-color: var(--border); color: var(--ink-muted); cursor: not-allowed; text-decoration: line-through; }
 
 .buchen-raster { display: grid; gap: var(--space-6); }
-@media (min-width: 900px) { .buchen-raster { grid-template-columns: 360px 1fr; align-items: start; } .buchen-raster .kalender-spalte { position: sticky; top: 88px; } }
+@media (min-width: 900px) { .buchen-raster { grid-template-columns: 360px 1fr; align-items: start; } .buchen-raster .kalender-spalte { position: sticky; top: 100px; } }
 
 /* ---------- Fuß ---------- */
 .fuss { padding: var(--space-8) 0; font-size: 14px; line-height: 20px; color: var(--ink-muted); background: var(--surface-sunken); margin-top: var(--space-12); }
@@ -359,6 +360,12 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 .fuss-innen { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-4); }
 .fuss ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-6); }
 .fuss strong { color: var(--ink); font-weight: 500; }
+.fuss-marke { display: grid; gap: var(--space-3); }
+.fuss-marke img { height: 56px; width: auto; display: block; }
+.fuss-marke p { margin: 0; }
+
+/* Handschrift (Patrick Hand): nur kurze Notizen und Zitate der Kinder */
+.hand-note { font-family: var(--font-hand); font-size: 20px; line-height: 26px; }
 
 main { padding-bottom: var(--space-8); }
 .seiten-kopf { padding-top: var(--space-8); }

@@ -47,7 +47,7 @@ file_put_contents("$ziel/api/verfuegbarkeit.json", $json(kalender_oeffentlich())
 foreach (glob("$quelle/*.html") as $datei) {
     $html = file_get_contents($datei);
     // Absolute Links und Quellen auf den Basis-Pfad umschreiben (mailto:, https: usw. bleiben)
-    $html = preg_replace('#\b(href|src|action)="/(?!/)#', '$1="' . $basis . '/', $html);
+    $html = preg_replace('#\b(href|src|srcset|action)="/(?!/)#', '$1="' . $basis . '/', $html);
     $html = str_replace(
         '<meta charset="utf-8">',
         '<meta charset="utf-8">' . "\n  " . '<meta name="asc-modus" content="demo">'

@@ -17,9 +17,13 @@
 <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
 <header class="kopf">
   <div class="container kopf-innen">
-    <a href="/" class="logo-link" aria-label="ASC – Animal Sitter Club, zur Startseite">
-      <img class="logo-hell" src="/assets/logo.svg" alt="" width="111" height="48">
-      <img class="logo-dunkel" src="/assets/logo-inverse.svg" alt="" width="111" height="48">
+    <a href="/" class="logo-link">
+      <picture>
+        <source media="(max-width: 800px) and (prefers-color-scheme: dark)" srcset="/assets/logo-kompakt-inverse.svg" width="85" height="40">
+        <source media="(max-width: 800px)" srcset="/assets/logo-kompakt.svg" width="85" height="40">
+        <source media="(prefers-color-scheme: dark)" srcset="/assets/logo-inverse.svg">
+        <img src="/assets/logo.svg" alt="ASC – Animal Sitter Club, Köln Ehrenfeld – zur Startseite" width="217" height="56">
+      </picture>
     </a>
     <button class="nav-schalter" type="button" aria-expanded="false" aria-controls="hauptnav">Menü</button>
     <nav class="nav" id="hauptnav" aria-label="Hauptnavigation">
@@ -50,9 +54,14 @@
 </main>
 <footer class="fuss">
   <div class="container fuss-innen">
-    <p><strong>ASC – Animal Sitter Club</strong><br>
-      Tierbetreuung in Köln-Ehrenfeld.<br>
-      Fragen? <a href="mailto:asc@steinforth.com">asc@steinforth.com</a></p>
+    <div class="fuss-marke">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="/assets/logo-inverse.svg">
+        <img src="/assets/logo.svg" alt="ASC – Animal Sitter Club, Köln Ehrenfeld" width="217" height="56">
+      </picture>
+      <p>Tierbetreuung in Köln-Ehrenfeld.<br>
+        Fragen? <a href="mailto:asc@steinforth.com">asc@steinforth.com</a></p>
+    </div>
     <ul>
       <li><a href="/preise#bedingungen">Buchungsbedingungen</a></li>
       <li><a href="/impressum">Impressum</a></li>

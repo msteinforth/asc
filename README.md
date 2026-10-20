@@ -11,7 +11,8 @@ Wiesengrün `brand`, Sonnengelb `accent`, Creme `surface`, Schrift Fredoka, Logo
 
 - Tokens stehen als CSS-Variablen oben in `asc/assets/style.css` (Namen wie in `tokens.json`), inkl. dunklem Thema per Systemeinstellung.
 - Komponenten mit den Klassen des Design Systems: `asc-btn` (primary/accent/ghost), `asc-badge`, `asc-card` (TarifCard).
-- Logos, Pfote und Fredoka-Schriften (OFL) liegen unter `asc/assets/`.
+- Logo „Hüpfend“ aus dem Design System: `logo.svg` (breit, Desktop-Kopfzeile und Fuß, mind. 56px hoch), `logo-kompakt.svg` (Pfote + ASC, Kopfzeile am Handy bis 800px), jeweils mit `-inverse` für das dunkle Thema; Umschaltung per `<picture>`. Favicon ist die Pfote.
+- Schriften (OFL) unter `asc/assets/fonts/`: Fredoka; Patrick Hand nur für kurze Zitate der Kinder (`.hand-note`).
 - Tier-Illustrationen (Hund, Katze, Kaninchen) unter `asc/assets/tiere/`, nur in Farben des Design Systems; auf der Team-Seite Platzhalter für die selbstgemalten Porträts.
 - Kleine Funktions-Icons (Telefon, Ort, Kalender) sind Lucide (ISC), direkt im HTML.
 - Abweichung: Text auf `accent` ist in beiden Themen `#2b2420` (`--on-accent`), weil `ink` im dunklen Thema auf Sonnengelb nur 1,8:1 Kontrast hätte.

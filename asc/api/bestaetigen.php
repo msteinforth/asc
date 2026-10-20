@@ -62,7 +62,7 @@ $titel = $aktion === 'ablehnen' ? 'Buchung ablehnen' : 'Buchung bestätigen';
 </head>
 <body>
 <main class="container schmal">
-  <p><a href="/" class="logo-link" aria-label="ASC – Animal Sitter Club"><img class="logo-hell" src="/assets/logo.svg" alt="" width="111" height="48"><img class="logo-dunkel" src="/assets/logo-inverse.svg" alt="" width="111" height="48"></a></p>
+  <p><a href="/" class="logo-link"><picture><source media="(prefers-color-scheme: dark)" srcset="/assets/logo-inverse.svg"><img src="/assets/logo.svg" alt="ASC – Animal Sitter Club" width="217" height="56"></picture></a></p>
   <h1><?= h($titel) ?></h1>
 
   <?php if ($erfolg): ?>
