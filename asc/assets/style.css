@@ -404,3 +404,23 @@ dl.daten dd { margin: 0; white-space: pre-wrap; }
 .abstand-oben { margin-top: var(--space-6); }
 .container .band { border-radius: var(--radius-lg); padding-inline: var(--space-4); }
 @media (min-width: 760px) { .container .band { padding-inline: var(--space-12); } }
+
+/* ---------- Pfotenspuren im Hintergrund ----------
+   Laut Design System darf die Pfote als Muster wiederholt werden, einfarbig in
+   `brand-soft` oder `accent-soft`. Karten und Bänder liegen darüber und verdecken die Spur. */
+main { position: relative; isolation: isolate; overflow-x: clip; }
+main::before, main::after, .held-flaeche::after {
+  content: ""; position: absolute; z-index: -1; pointer-events: none;
+  -webkit-mask: url("pfotenspur.svg") center / contain no-repeat;
+  mask: url("pfotenspur.svg") center / contain no-repeat;
+  aspect-ratio: 420 / 560;
+}
+main::before { background: var(--brand-soft); width: 200px; top: 24px; right: 8px; transform: rotate(18deg); }
+main::after { background: var(--accent-soft); width: 170px; top: 52%; left: -50px; transform: scaleX(-1) rotate(10deg); }
+.held-flaeche > * { position: relative; z-index: 1; }
+.held-flaeche::after { background: var(--accent-soft); width: 230px; right: 18%; bottom: -60px; transform: rotate(-35deg); z-index: 0; }
+@media (max-width: 759px) {
+  main::before { width: 130px; right: -50px; }
+  main::after { width: 120px; left: -60px; }
+  .held-flaeche::after { width: 170px; right: -40px; bottom: -40px; }
+}
