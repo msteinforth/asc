@@ -1,0 +1,50 @@
+# Veröffentlicht eine statische Vorschau der Webseite auf GitHub Pages.
+# Formulare werden in der Vorschau nicht gesendet (kein PHP auf GitHub Pages).
+# Täglich neu gebaut, damit der Kalender die aktuellen 8 Wochen zeigt.
+name: GitHub Pages (Vorschau)
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: mbstring
+          coverage: none
+      - name: Tests
+        run: php tests/run.php
+      - id: pages
+        uses: actions/configure-pages@v5
+      - name: Vorschau bauen
+        run: php tools/pages-build.php _site "${{ steps.pages.outputs.base_path }}"
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

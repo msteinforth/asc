@@ -16,6 +16,7 @@ asc/                  Webroot (Subdomain asc.steinforth.com zeigt hierhin)
   lib/                PHP-Logik, PHPMailer, config.example.php (gesperrt per .htaccess)
 asc-data/             tarife.json, verfuegbarkeit.json, buchungen.json (außerhalb des Webroots)
 tests/run.php         Tests der Kernlogik
+tools/pages-build.php statische Vorschau für GitHub Pages
 dev-router.php        nur für die lokale Entwicklung
 ```
 
@@ -50,6 +51,18 @@ Personenbezogene Daten werden 12 Monate nach dem Termin automatisch anonymisiert
 - **Verfügbarkeit:** Admin → Verfügbarkeit. Tag anklicken → freigeben (max. 3 Zeitfenster) oder sperren. Zeiträume geben Wochentage pauschal frei (z. B. Schulzeit Mo/Mi/Fr) oder sperren Ferien/Prüfungszeiten. Einzeltage haben Vorrang.
 - **Texte der Seiten:** direkt in den `.html`-Dateien. Gelb markierte `[Platzhalter]` (Team, Impressum, Datenschutz, Einsatzgebiet) vor dem Start ersetzen.
 - **Texte der E-Mails:** `asc/lib/texte.php`.
+
+## Vorschau auf GitHub Pages
+
+https://msteinforth.github.io/asc/ zeigt eine **statische Vorschau** (GitHub Pages kann kein PHP):
+Seiten, Preise, Kalender und Live-Preis funktionieren, Formulare werden aber **nicht gesendet**
+und ein Hinweisbalken weist darauf hin. Admin-Bereich und API sind nicht enthalten.
+
+- Gebaut von `.github/workflows/pages.yml` bei jedem Push auf `main` und täglich (Kalender bleibt aktuell).
+- `tools/pages-build.php` erzeugt die Vorschau: kopiert HTML/Assets, legt `api/tarife.json` und
+  `api/verfuegbarkeit.json` aus `asc-data/` an und setzt den Basis-Pfad `/asc` vor alle Links.
+- Lokal ausprobieren: `php tools/pages-build.php _site` und `_site` mit einem beliebigen Webserver ausliefern.
+- Einmalig nötig: im Repository unter *Settings → Pages* bei *Source* „GitHub Actions“ auswählen.
 
 ## Deployment auf Strato (später)
 

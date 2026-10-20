@@ -12,3 +12,4 @@ asc-data/backup/
 tests/tmp/
 .DS_Store
 *.swp
+_site/

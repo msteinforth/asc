@@ -288,3 +288,6 @@ dl.daten dd { margin: 0; white-space: pre-wrap; }
 .held-bild .b-klein { right: 8%; bottom: 0; width: 34%; }
 @media (max-width: 799px) { .held-bild { max-width: 240px; } }
 .h3 { font-size: 1.15rem; margin-top: 0; }
+
+/* Vorschau-Hinweis (nur GitHub Pages) */
+.demo-banner { background: var(--text); color: #fff; text-align: center; padding: .5rem 16px; font-size: .92rem; }

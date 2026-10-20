@@ -7,6 +7,12 @@
   var WOCHENTAGE_KURZ = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
   var WOCHENTAGE = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];
 
+  // Vorschau-Modus (GitHub Pages): kein PHP, Daten kommen aus statischen JSON-Dateien,
+  // Preise werden im Browser gerechnet und Formulare nicht gesendet.
+  function meta(name) { var m = document.querySelector('meta[name="' + name + '"]'); return m ? m.getAttribute('content') : ''; }
+  var DEMO = meta('asc-modus') === 'demo';
+  var BASIS = meta('asc-basis').replace(/\/$/, '');
+
   function $(sel, ctx) { return (ctx || document).querySelector(sel); }
   function $$(sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); }
 
@@ -42,6 +48,67 @@
   function datumLang(s) { var d = ausIso(s); return WOCHENTAGE[wochentagIndex(d)] + ', ' + d.getDate() + '. ' + MONATE[d.getMonth()] + ' ' + d.getFullYear(); }
   function datumKurz(s) { var d = ausIso(s); return WOCHENTAGE_KURZ[wochentagIndex(d)] + ', ' + d.getDate() + '. ' + MONATE[d.getMonth()]; }
 
+  /* ---------- Preisberechnung im Browser (nur Vorschau, sonst rechnet lib/tarife.php) ---------- */
+  function ostersonntag(j) {
+    var a = j % 19, b = Math.floor(j / 100), c = j % 100, d = Math.floor(b / 4), e = b % 4;
+    var f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30;
+    var i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451);
+    var x = h + l - 7 * m + 114;
+    return new Date(j, Math.floor(x / 31) - 1, (x % 31) + 1);
+  }
+  function istSonnOderFeiertag(iso) {
+    var d = ausIso(iso);
+    if (d.getDay() === 0) return true;
+    var j = d.getFullYear(), o = ostersonntag(j);
+    var feste = [j + '-01-01', j + '-05-01', j + '-10-03', j + '-12-25', j + '-12-26'];
+    [-2, 1, 39, 50].forEach(function (n) { var x = new Date(o); x.setDate(x.getDate() + n); feste.push(isoDatum(x)); });
+    return feste.indexOf(iso) !== -1;
+  }
+  function preisLokal(t, e) {
+    var anzahlTiere = Math.max(1, Math.min(10, parseInt(e.anzahlTiere, 10) || 1));
+    var tage = [];
+    if (t.abrechnung === 'pro-termin') {
+      if (e.datum) tage = [e.datum];
+    } else if (e.von && e.bis && e.von <= e.bis) {
+      for (var d = ausIso(e.von); isoDatum(d) <= e.bis; d.setDate(d.getDate() + 1)) tage.push(isoDatum(d));
+    }
+    var anzahlTage = t.abrechnung === 'pro-termin' ? 1 : Math.max(1, tage.length);
+    var posten = [], einheiten = 1, preis = t.preis;
+    if (t.abrechnung === 'pro-tag') {
+      einheiten = anzahlTage;
+      var staffel = t.staffel && anzahlTage >= t.staffel.abTagen;
+      if (staffel) preis = t.staffel.preis;
+      posten.push({ text: t.name + ': ' + anzahlTage + (anzahlTage === 1 ? ' Tag' : ' Tage') + ' × ' + euro(preis) + (staffel ? ' (Staffelpreis ab ' + t.staffel.abTagen + ' Tagen)' : ''), betrag: preis * einheiten });
+    } else if (t.abrechnung === 'pro-wochenende') {
+      einheiten = Math.ceil(anzahlTage / 3);
+      posten.push({ text: t.name + ': ' + einheiten + ' × ' + euro(preis), betrag: preis * einheiten });
+    } else {
+      posten.push({ text: t.name + (t.einheit ? ' (' + t.einheit + ')' : ''), betrag: preis });
+    }
+    t.zuschlaege.forEach(function (z) {
+      if (z.regel === 'pro-weiteres-tier') {
+        if (anzahlTiere > 1) {
+          var faktor = (anzahlTiere - 1) * (t.abrechnung === 'pro-termin' ? 1 : einheiten);
+          posten.push({ text: z.name + ': ' + faktor + ' × ' + euro(z.preis), betrag: z.preis * faktor });
+        }
+      } else if (z.regel === 'sonn-feiertag') {
+        var n = tage.filter(istSonnOderFeiertag).length;
+        if (n) posten.push({ text: z.name + ': ' + n + ' × ' + euro(z.preis), betrag: z.preis * n });
+      } else if ((e.optionen || []).indexOf(z.id) !== -1) {
+        posten.push({ text: z.name, betrag: z.preis });
+      }
+    });
+    var gesamt = Math.round(posten.reduce(function (s, p) { return s + p.betrag; }, 0) * 100) / 100;
+    return { ok: true, gesamt: gesamt, posten: posten, tage: anzahlTage, einheiten: einheiten };
+  }
+
+  if (DEMO) {
+    document.body.insertBefore(el('div', { class: 'demo-banner', role: 'note' }, [
+      el('strong', { text: 'Vorschau: ' }),
+      'Diese Seite zeigt nur, wie die Webseite aussieht. Buchungen und Anfragen werden hier nicht gesendet.'
+    ]), document.body.firstChild);
+  }
+
   /* ---------- Navigation ---------- */
   var schalter = $('.nav-schalter');
   if (schalter) {
@@ -56,7 +123,7 @@
   var tarifeVersprechen = null;
   function tarife() {
     if (!tarifeVersprechen) {
-      tarifeVersprechen = holeJson('/api/tarife.php').then(function (r) {
+      tarifeVersprechen = holeJson(DEMO ? BASIS + '/api/tarife.json' : '/api/tarife.php').then(function (r) {
         if (!r.ok) throw new Error('Tarife nicht verfügbar');
         return r.daten.tarife || [];
       });
@@ -160,6 +227,7 @@
 
   // Formular-Token für den Spam-Schutz
   function tokenHolen() {
+    if (DEMO) return Promise.resolve();
     return holeJson('/api/token.php').then(function (r) {
       if (r.ok) $('[data-form-token]', form).value = r.daten.formToken;
     });
@@ -254,7 +322,9 @@
         }
       }
       var nr = ++preisAnfrage;
-      holeJson('/api/preis.php', { method: 'POST', headers: { Accept: 'application/json', 'Content-Type': 'application/json' }, body: JSON.stringify(daten) })
+      (DEMO
+        ? Promise.resolve({ ok: true, daten: preisLokal(t, daten) })
+        : holeJson('/api/preis.php', { method: 'POST', headers: { Accept: 'application/json', 'Content-Type': 'application/json' }, body: JSON.stringify(daten) }))
         .then(function (r) {
           if (nr !== preisAnfrage || !r.ok) return;
           var d = r.daten;
@@ -338,6 +408,10 @@
     ev.preventDefault();
     fehlerZuruecksetzen();
     var knopf = $('button[type="submit"]', form);
+    if (DEMO) {
+      fehlerZeigen({ _: 'Das ist nur eine Vorschau der Webseite – hier werden keine Buchungen gesendet. Bitte melde dich per E-Mail an asc@steinforth.com.' });
+      return;
+    }
     var daten = {};
     new FormData(form).forEach(function (wert, schluessel) {
       if (schluessel === 'optionen[]') (daten.optionen = daten.optionen || []).push(wert);
@@ -376,7 +450,7 @@
   var fokusDatum = null; // Tag mit tabindex=0
 
   function kalenderLaden() {
-    return holeJson('/api/verfuegbarkeit.php').then(function (r) {
+    return holeJson(DEMO ? BASIS + '/api/verfuegbarkeit.json' : '/api/verfuegbarkeit.php').then(function (r) {
       if (!r.ok) throw new Error();
       kalDaten = r.daten;
       var gewaehlt = form.elements.datum.value;
