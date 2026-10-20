@@ -23,7 +23,7 @@ return [
     'familie_name'  => 'ASC – Animal Sitter Club',
 
     // Kontakt, der in den Kunden-Mails genannt wird.
-    'kontakt_telefon' => '0000 000000',
+    'kontakt_telefon' => '0160 7003820',
 
     'mail' => [
         // 'file' = Mails werden nur als .eml-Datei in <data_dir>/mails abgelegt (lokale Entwicklung)
