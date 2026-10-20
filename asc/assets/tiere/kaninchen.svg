@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Kaninchen">
+  <!-- Ohren -->
+  <path d="M44 48c-8-14-8-36 0-40 8-3 12 18 10 38z" fill="#ffffff" stroke="#e6dcd0" stroke-width="2"/>
+  <path d="M46 42c-4-10-4-25 0-28 4 0 6 14 5 26z" fill="#ef6a5a" opacity=".45"/>
+  <path d="M76 48c8-14 8-36 0-40-8-3-12 18-10 38z" fill="#ffffff" stroke="#e6dcd0" stroke-width="2"/>
+  <path d="M74 42c4-10 4-25 0-28-4 0-6 14-5 26z" fill="#ef6a5a" opacity=".45"/>
+  <!-- Körper -->
+  <ellipse cx="60" cy="96" rx="30" ry="20" fill="#ffffff" stroke="#e6dcd0" stroke-width="2"/>
+  <circle cx="88" cy="100" r="7" fill="#ffffff" stroke="#e6dcd0" stroke-width="2"/>
+  <!-- Kopf -->
+  <ellipse cx="60" cy="62" rx="24" ry="21" fill="#ffffff" stroke="#e6dcd0" stroke-width="2"/>
+  <circle cx="50" cy="60" r="3.4" fill="#2b2420"/>
+  <circle cx="70" cy="60" r="3.4" fill="#2b2420"/>
+  <circle cx="51.1" cy="58.9" r="1" fill="#fff"/>
+  <circle cx="71.1" cy="58.9" r="1" fill="#fff"/>
+  <path d="M57 67h6l-3 3z" fill="#ef6a5a"/>
+  <path d="M60 70q-2.5 3.5-5 1.5M60 70q2.5 3.5 5 1.5" stroke="#2b2420" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  <rect x="57.2" y="72.5" width="2.6" height="3.4" rx=".8" fill="#ffffff" stroke="#e6dcd0" stroke-width="1"/>
+  <rect x="60.2" y="72.5" width="2.6" height="3.4" rx=".8" fill="#ffffff" stroke="#e6dcd0" stroke-width="1"/>
+  <circle cx="44" cy="69" r="3.6" fill="#ef6a5a" opacity=".3"/>
+  <circle cx="76" cy="69" r="3.6" fill="#ef6a5a" opacity=".3"/>
+  <!-- Möhre -->
+  <path d="M30 112l14-30c2-4 7-3 7 1l-15 31z" fill="#f6a23a"/>
+  <path d="M44 84l-4-8M47 82l1-9M49 84l6-6" stroke="#5fb57e" stroke-width="3" stroke-linecap="round"/>
+  <path d="M38 98l4 1M35 104l4 1" stroke="#e08a1c" stroke-width="1.6" stroke-linecap="round"/>
+  <!-- Pfötchen -->
+  <ellipse cx="48" cy="112" rx="8" ry="4.5" fill="#ffffff" stroke="#e6dcd0" stroke-width="2"/>
+  <ellipse cx="72" cy="112" rx="8" ry="4.5" fill="#ffffff" stroke="#e6dcd0" stroke-width="2"/>
+</svg>

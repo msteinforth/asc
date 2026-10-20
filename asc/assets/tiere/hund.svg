@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Hund">
+  <!-- Körper -->
+  <path d="M34 112c0-24 11-40 26-40s26 16 26 40z" fill="#f6a23a"/>
+  <path d="M48 112c0-14 5-24 12-24s12 10 12 24z" fill="#fffaf3"/>
+  <!-- Pfoten -->
+  <ellipse cx="47" cy="111" rx="9" ry="5" fill="#fffaf3"/>
+  <ellipse cx="73" cy="111" rx="9" ry="5" fill="#fffaf3"/>
+  <!-- Halsband -->
+  <path d="M41 76q19 9 38 0l-2 7q-17 8-34 0z" fill="#2f7d4e"/>
+  <circle cx="60" cy="86" r="4.5" fill="#4a9fe0"/>
+  <!-- Ohren -->
+  <path d="M30 30c-9 4-12 24-6 34 4 6 11 4 13-3l4-24z" fill="#e08a1c"/>
+  <path d="M90 30c9 4 12 24 6 34-4 6-11 4-13-3l-4-24z" fill="#e08a1c"/>
+  <!-- Kopf -->
+  <ellipse cx="60" cy="48" rx="27" ry="26" fill="#f6a23a"/>
+  <path d="M60 30c-6 0-9 4-9 9v6h18v-6c0-5-3-9-9-9z" fill="#fffaf3" opacity=".9"/>
+  <ellipse cx="60" cy="60" rx="15" ry="11" fill="#fffaf3"/>
+  <!-- Gesicht -->
+  <circle cx="49" cy="47" r="3.6" fill="#2b2420"/>
+  <circle cx="71" cy="47" r="3.6" fill="#2b2420"/>
+  <circle cx="50.2" cy="45.8" r="1.1" fill="#fff"/>
+  <circle cx="72.2" cy="45.8" r="1.1" fill="#fff"/>
+  <ellipse cx="60" cy="55.5" rx="5" ry="3.6" fill="#2b2420"/>
+  <path d="M60 59v3.5M54.5 63q5.5 4 11 0" stroke="#2b2420" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M57.5 64.5q2.5 6 5 0z" fill="#ef6a5a"/>
+  <circle cx="44" cy="56" r="3.2" fill="#ef6a5a" opacity=".35"/>
+  <circle cx="76" cy="56" r="3.2" fill="#ef6a5a" opacity=".35"/>
+</svg>

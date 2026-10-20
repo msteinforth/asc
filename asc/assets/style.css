@@ -209,8 +209,9 @@ p { margin: 0 0 var(--space-4); }
 .asc-card__actions { margin-top: auto; padding-top: var(--space-3); }
 
 .kacheln { display: grid; gap: var(--space-6); grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin: var(--space-4) 0; }
-.kachel-icon { width: 48px; height: 48px; border-radius: var(--radius-pill); display: grid; place-items: center; background: var(--brand-soft); color: var(--brand-strong); }
-.kachel-icon.gelb { background: var(--accent-soft); color: var(--ink); }
+.kachel-bild { width: 96px; height: 96px; border-radius: var(--radius-pill); display: grid; place-items: center; background: var(--brand-soft); }
+.kachel-bild.gelb { background: var(--accent-soft); }
+.kachel-bild img { width: 80px; height: 80px; }
 
 /* ---------- Startseite ---------- */
 .held { margin-block: var(--space-4) var(--space-8); }
@@ -223,8 +224,12 @@ p { margin: 0 0 var(--space-4); }
   .held-flaeche { grid-template-columns: 1.4fr .6fr; padding: var(--space-12); }
 }
 .held-flaeche .lead { color: var(--ink); }
-.held-bild { justify-self: center; width: min(220px, 60%); }
-.held-bild img { display: block; width: 100%; height: auto; }
+/* Drei Tiere als Gruppe; am Handy ausgeblendet, damit der Button oben bleibt */
+.held-bild { justify-self: center; position: relative; width: 260px; aspect-ratio: 26 / 22; }
+.held-bild img { position: absolute; height: auto; }
+.held-bild .t-hund { width: 58%; left: 0; bottom: 0; z-index: 2; }
+.held-bild .t-katze { width: 48%; right: 4%; top: 0; }
+.held-bild .t-kaninchen { width: 40%; right: 0; bottom: 0; z-index: 3; }
 @media (max-width: 759px) { .held-bild { display: none; } }
 
 .band { background: var(--surface-sunken); padding: var(--space-8) 0; margin: var(--space-8) 0; }
@@ -256,7 +261,7 @@ td.zahl, th.zahl { text-align: right; white-space: nowrap; }
 .team .asc-card { text-align: center; align-items: center; }
 .team .avatar { width: 112px; height: 112px; border-radius: var(--radius-pill); background: var(--brand-soft); display: grid; place-items: center; }
 .team .avatar.gelb { background: var(--accent-soft); }
-.team .avatar img { width: 64px; height: 64px; }
+.team .avatar img { width: 88px; height: 88px; }
 .team .alter { color: var(--ink-muted); font-weight: 500; margin: 0; }
 
 /* ---------- Formulare ---------- */
