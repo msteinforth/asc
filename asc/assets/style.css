@@ -128,13 +128,10 @@ p { margin: 0 0 var(--space-4); }
 /* ---------- Kopf & Navigation ---------- */
 .kopf { background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10; }
 .kopf-innen { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); min-height: 80px; }
-/* Logo: breite Form ab 801px (mind. 56px hoch), sonst die kompakte Form (40px) */
-.logo-link { display: inline-flex; padding: var(--space-2) 0; }
+/* Logo: breite Form überall, 56px hoch (Mindestgröße laut Design System) */
+.logo-link { display: inline-flex; padding: var(--space-2) 0; flex: none; }
 .logo-link img { height: 56px; width: auto; display: block; }
-@media (max-width: 800px) {
-  .kopf-innen { min-height: 64px; }
-  .logo-link img { height: 40px; }
-}
+@media (max-width: 800px) { .kopf-innen { min-height: 72px; gap: var(--space-2); } }
 
 .nav-schalter {
   display: none; background: transparent; border: 1.5px solid var(--border-strong); border-radius: var(--radius-pill);
