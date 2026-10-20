@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Gassi buchen – ASC Animal Sitter Club</title>
   <meta name="description" content="Wähle einen freien Tag und ein Zeitfenster für Gassi oder einen Katzenbesuch und buche direkt online.">
-  <meta name="theme-color" content="#c2410c">
+  <meta name="theme-color" content="#fffaf3" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1e1a16" media="(prefers-color-scheme: dark)">
+  <link rel="preload" href="/assets/fonts/Fredoka-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/Fredoka-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/style.css">
   <script src="/assets/app.js" defer></script>
@@ -14,7 +17,10 @@
 <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
 <header class="kopf">
   <div class="container kopf-innen">
-    <a href="/" class="logo-link"><img src="/assets/logo.svg" alt="ASC – Animal Sitter Club, zur Startseite" width="130" height="45"></a>
+    <a href="/" class="logo-link" aria-label="ASC – Animal Sitter Club, zur Startseite">
+      <img class="logo-hell" src="/assets/logo.svg" alt="" width="111" height="48">
+      <img class="logo-dunkel" src="/assets/logo-inverse.svg" alt="" width="111" height="48">
+    </a>
     <button class="nav-schalter" type="button" aria-expanded="false" aria-controls="hauptnav">Menü</button>
     <nav class="nav" id="hauptnav" aria-label="Hauptnavigation">
       <ul>
@@ -28,7 +34,7 @@
   </div>
 </header>
 <main id="inhalt">
-<div class="container">
+<div class="container seiten-kopf">
   <h1>Gassi &amp; Katzenbesuch buchen</h1>
   <p>Wähle einen freien Tag und ein Zeitfenster. Wir bestätigen deine Buchung innerhalb von 24 Stunden per E-Mail. Für längere Betreuungen nutze bitte die <a href="/anfrage">Betreuungsanfrage</a>.</p>
 
@@ -130,7 +136,8 @@
         </fieldset>
 
         <div class="preisbox" aria-live="polite" id="preisbox">
-          <p class="gesamt">Preis: <span id="preis-gesamt">–</span></p>
+          <p class="klein">Dein Preis</p>
+          <p class="gesamt"><span id="preis-gesamt">–</span></p>
           <ul id="preis-posten"></ul>
           <p class="klein">Endpreis, bezahlt wird nach der Leistung.</p>
         </div>
@@ -147,7 +154,7 @@
         <input type="hidden" name="formToken" data-form-token>
 
         <div>
-          <button class="button" type="submit">Verbindlich anfragen</button>
+          <button class="asc-btn asc-btn--primary asc-btn--block" type="submit">Gassi-Termin anfragen</button>
           <p class="hilfe">Du bekommst sofort eine Eingangsbestätigung per E-Mail. Verbindlich wird der Termin mit unserer Bestätigung.</p>
         </div>
       </div>

@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Impressum – ASC Animal Sitter Club</title>
   <meta name="description" content="Impressum des ASC – Animal Sitter Club.">
-  <meta name="theme-color" content="#c2410c">
+  <meta name="theme-color" content="#fffaf3" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1e1a16" media="(prefers-color-scheme: dark)">
+  <link rel="preload" href="/assets/fonts/Fredoka-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/Fredoka-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/style.css">
   <script src="/assets/app.js" defer></script>
@@ -14,7 +17,10 @@
 <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
 <header class="kopf">
   <div class="container kopf-innen">
-    <a href="/" class="logo-link"><img src="/assets/logo.svg" alt="ASC – Animal Sitter Club, zur Startseite" width="130" height="45"></a>
+    <a href="/" class="logo-link" aria-label="ASC – Animal Sitter Club, zur Startseite">
+      <img class="logo-hell" src="/assets/logo.svg" alt="" width="111" height="48">
+      <img class="logo-dunkel" src="/assets/logo-inverse.svg" alt="" width="111" height="48">
+    </a>
     <button class="nav-schalter" type="button" aria-expanded="false" aria-controls="hauptnav">Menü</button>
     <nav class="nav" id="hauptnav" aria-label="Hauptnavigation">
       <ul>
@@ -28,7 +34,7 @@
   </div>
 </header>
 <main id="inhalt">
-<div class="container schmal rechtstext">
+<div class="container schmal rechtstext seiten-kopf">
   <h1>Impressum</h1>
   <p class="hinweis warnung">Entwurf – die markierten Angaben bitte vor dem Start ergänzen und rechtlich prüfen lassen.</p>
 

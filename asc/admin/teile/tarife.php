@@ -13,8 +13,11 @@ $regeln = ['pro-weiteres-tier' => 'je weiteres Tier', 'sonn-feiertag' => 'je Son
   <input type="hidden" name="aktion" value="tarife">
   <?php foreach ($tarife as $t): $p = 'tarif[' . h($t['id']) . ']'; $fid = 't-' . h($t['id']); ?>
     <fieldset>
-      <legend><?= h($t['name']) ?> <span class="etikett <?= $t['art'] === 'direkt' ? 'direkt' : '' ?>"><?= $t['art'] === 'direkt' ? 'direkt buchbar' : 'Anfrage' ?></span></legend>
-      <label class="auswahl"><input type="checkbox" name="<?= $p ?>[aktiv]" value="1" <?= !empty($t['aktiv']) ? 'checked' : '' ?>> aktiv (auf der Seite sichtbar)</label>
+      <legend><?= h($t['name']) ?> <span class="asc-badge <?= $t['art'] === 'direkt' ? 'asc-badge--direkt' : 'asc-badge--anfrage' ?>"><?= $t['art'] === 'direkt' ? 'Direkt buchbar' : 'Auf Anfrage' ?></span></legend>
+      <div class="auswahl-gruppe">
+        <label class="auswahl"><input type="checkbox" name="<?= $p ?>[aktiv]" value="1" <?= !empty($t['aktiv']) ? 'checked' : '' ?>> aktiv (auf der Seite sichtbar)</label>
+        <label class="auswahl"><input type="checkbox" name="<?= $p ?>[empfohlen]" value="1" <?= !empty($t['empfohlen']) ? 'checked' : '' ?>> empfohlen („Beliebt“)</label>
+      </div>
       <div class="feld-reihe">
         <div class="feld"><label for="<?= $fid ?>-name">Name</label><input type="text" id="<?= $fid ?>-name" name="<?= $p ?>[name]" value="<?= h($t['name']) ?>" required maxlength="60"></div>
         <div class="feld"><label for="<?= $fid ?>-einheit">Einheit</label><input type="text" id="<?= $fid ?>-einheit" name="<?= $p ?>[einheit]" value="<?= h($t['einheit'] ?? '') ?>" maxlength="30"></div>
@@ -44,5 +47,5 @@ $regeln = ['pro-weiteres-tier' => 'je weiteres Tier', 'sonn-feiertag' => 'je Son
       <?php endif; ?>
     </fieldset>
   <?php endforeach; ?>
-  <div><button class="button" type="submit">Alle Tarife speichern</button></div>
+  <div><button class="asc-btn asc-btn--primary" type="submit">Alle Tarife speichern</button></div>
 </form>

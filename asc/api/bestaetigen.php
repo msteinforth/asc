@@ -62,7 +62,7 @@ $titel = $aktion === 'ablehnen' ? 'Buchung ablehnen' : 'Buchung bestätigen';
 </head>
 <body>
 <main class="container schmal">
-  <p><a href="/" class="logo-link"><img src="/assets/logo.svg" alt="ASC – Animal Sitter Club" width="140" height="48"></a></p>
+  <p><a href="/" class="logo-link" aria-label="ASC – Animal Sitter Club"><img class="logo-hell" src="/assets/logo.svg" alt="" width="111" height="48"><img class="logo-dunkel" src="/assets/logo-inverse.svg" alt="" width="111" height="48"></a></p>
   <h1><?= h($titel) ?></h1>
 
   <?php if ($erfolg): ?>
@@ -72,7 +72,7 @@ $titel = $aktion === 'ablehnen' ? 'Buchung ablehnen' : 'Buchung bestätigen';
   <?php endif; ?>
 
   <?php if ($linkOk): ?>
-    <div class="karte">
+    <div class="asc-card">
       <h2><?= h($buchung['id']) ?> · <?= h($buchung['kunde']['name']) ?></h2>
       <pre class="zusammenfassung"><?= h(buchung_zusammenfassung($buchung, true)) ?></pre>
     </div>
@@ -87,7 +87,7 @@ $titel = $aktion === 'ablehnen' ? 'Buchung ablehnen' : 'Buchung bestätigen';
         <label for="nachricht">Persönliche Nachricht an den Kunden (optional)</label>
         <textarea id="nachricht" name="nachricht" rows="3" placeholder="<?= $aktion === 'ablehnen' ? 'z. B. Am Wochenende davor hätten wir Zeit.' : 'z. B. Lena und Paul kommen um 14 Uhr.' ?>"></textarea>
       </div>
-      <button type="submit" class="button <?= $aktion === 'ablehnen' ? 'button-zweit' : '' ?>">
+      <button type="submit" class="asc-btn <?= $aktion === 'ablehnen' ? 'asc-btn--ghost' : 'asc-btn--primary' ?>">
         <?= $aktion === 'ablehnen' ? 'Jetzt ablehnen' : 'Jetzt bestätigen' ?>
       </button>
     </form>

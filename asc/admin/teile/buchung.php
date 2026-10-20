@@ -61,7 +61,7 @@ if ($b['typ'] === 'betreuung') {
 <?php endif; ?>
 
 <div class="detail-raster">
-  <section class="karte">
+  <section class="asc-card">
     <h2 class="h3">Termin &amp; Leistung</h2>
     <dl class="daten">
       <dt>Termin</dt><dd><?= h(buchung_zeitraum_text($b)) ?></dd>
@@ -70,7 +70,7 @@ if ($b['typ'] === 'betreuung') {
       <dt>Preis</dt><dd><strong><?= h(euro($b['preisGesamt'])) ?></strong><?= !empty($b['preisAngepasst']) ? ' (angepasst)' : '' ?><?php foreach ($b['preisPosten'] ?? [] as $p): ?><br><span class="klein"><?= h($p['text']) ?>: <?= h(euro($p['betrag'])) ?></span><?php endforeach; ?></dd>
     </dl>
   </section>
-  <section class="karte">
+  <section class="asc-card">
     <h2 class="h3">Tier</h2>
     <dl class="daten">
       <dt>Name</dt><dd><?= h($t['name'] ?: '–') ?></dd>
@@ -80,7 +80,7 @@ if ($b['typ'] === 'betreuung') {
       <?php if (!empty($b['freitext'])): ?><dt>Hinweise</dt><dd><?= h($b['freitext']) ?></dd><?php endif; ?>
     </dl>
   </section>
-  <section class="karte">
+  <section class="asc-card">
     <h2 class="h3">Kunde</h2>
     <dl class="daten">
       <dt>Name</dt><dd><?= h($k['name'] ?: '(anonymisiert)') ?></dd>
@@ -90,7 +90,7 @@ if ($b['typ'] === 'betreuung') {
       <dt>Datenschutz</dt><dd>bestätigt am <?= h(datum_de(substr($b['datenschutzOk']['zeit'] ?? '', 0, 10), false)) ?></dd>
     </dl>
   </section>
-  <section class="karte">
+  <section class="asc-card">
     <h2 class="h3">Verlauf</h2>
     <ul class="klein">
     <?php foreach ($b['verlauf'] ?? [] as $eintrag): ?>
@@ -101,7 +101,7 @@ if ($b['typ'] === 'betreuung') {
 </div>
 
 <h2>Status ändern</h2>
-<form method="post" class="formular karte">
+<form method="post" class="formular asc-card">
   <?= csrf_feld() ?>
   <input type="hidden" name="aktion" value="status">
   <input type="hidden" name="id" value="<?= h($b['id']) ?>">
@@ -111,15 +111,15 @@ if ($b['typ'] === 'betreuung') {
   </div>
   <label class="auswahl"><input type="checkbox" name="mailen" value="1" checked> Kunden per E-Mail informieren (bei Bestätigung/Absage)</label>
   <div class="button-reihe">
-    <?php if ($b['status'] !== 'bestaetigt'): ?><button class="button" name="status" value="bestaetigt">Bestätigen</button><?php endif; ?>
-    <?php if ($b['status'] !== 'abgelehnt'): ?><button class="button button-zweit" name="status" value="abgelehnt">Ablehnen</button><?php endif; ?>
-    <?php if ($b['status'] !== 'erledigt'): ?><button class="button button-zweit" name="status" value="erledigt">Als erledigt markieren</button><?php endif; ?>
-    <?php if ($b['status'] !== 'offen'): ?><button class="button button-zweit" name="status" value="offen">Zurück auf offen</button><?php endif; ?>
+    <?php if ($b['status'] !== 'bestaetigt'): ?><button class="asc-btn asc-btn--primary" name="status" value="bestaetigt">Bestätigen</button><?php endif; ?>
+    <?php if ($b['status'] !== 'abgelehnt'): ?><button class="asc-btn asc-btn--ghost" name="status" value="abgelehnt">Ablehnen</button><?php endif; ?>
+    <?php if ($b['status'] !== 'erledigt'): ?><button class="asc-btn asc-btn--ghost" name="status" value="erledigt">Als erledigt markieren</button><?php endif; ?>
+    <?php if ($b['status'] !== 'offen'): ?><button class="asc-btn asc-btn--ghost" name="status" value="offen">Zurück auf offen</button><?php endif; ?>
   </div>
 </form>
 
 <h2>Preis &amp; Notiz</h2>
-<form method="post" class="formular karte">
+<form method="post" class="formular asc-card">
   <?= csrf_feld() ?>
   <input type="hidden" name="aktion" value="buchung-bearbeiten">
   <input type="hidden" name="id" value="<?= h($b['id']) ?>">
@@ -133,5 +133,5 @@ if ($b['typ'] === 'betreuung') {
       <textarea id="adminNotiz" name="adminNotiz" rows="2"><?= h($b['adminNotiz'] ?? '') ?></textarea>
     </div>
   </div>
-  <div><button class="button button-zweit" type="submit">Speichern</button></div>
+  <div><button class="asc-btn asc-btn--ghost" type="submit">Speichern</button></div>
 </form>

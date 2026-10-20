@@ -26,7 +26,8 @@ function weiter(string $ziel, string $meldung = '', string $art = 'erfolg'): nev
 
 function status_etikett(string $status): string
 {
-    return '<span class="status status-' . h($status) . '">' . h(STATUS[$status] ?? $status) . '</span>';
+    $variante = ['offen' => 'warning', 'bestaetigt' => 'success', 'abgelehnt' => 'danger', 'erledigt' => 'neutral'][$status] ?? 'neutral';
+    return '<span class="asc-badge asc-badge--' . $variante . '"><span class="asc-badge__dot"></span>' . h(STATUS[$status] ?? $status) . '</span>';
 }
 
 function csrf_feld(): string
@@ -169,6 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $t['einheit'] = text_feld($e, 'einheit', 30);
                     $t['preis'] = max(0, zahl_eingabe($e['preis'] ?? $t['preis']));
                     $t['aktiv'] = !empty($e['aktiv']);
+                    $t['empfohlen'] = !empty($e['empfohlen']);
                     if (isset($t['staffel'], $e['staffelAb'], $e['staffelPreis'])) {
                         $t['staffel'] = ['abTagen' => max(2, (int) $e['staffelAb']), 'preis' => max(0, zahl_eingabe($e['staffelPreis']))];
                     }
@@ -216,7 +218,7 @@ $offen = count(array_filter($buchungen, fn($b) => $b['status'] === 'offen'));
 <body>
 <header class="kopf">
   <div class="container kopf-innen">
-    <a href="/admin/" class="logo-link"><img src="/assets/logo.svg" alt="ASC Admin" width="130" height="45"></a>
+    <a href="/admin/" class="logo-link" aria-label="ASC Admin"><img class="logo-hell" src="/assets/logo.svg" alt="" width="111" height="48"><img class="logo-dunkel" src="/assets/logo-inverse.svg" alt="" width="111" height="48"></a>
     <a href="/" class="klein">Zur Webseite</a>
   </div>
 </header>

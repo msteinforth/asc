@@ -135,42 +135,56 @@
     return t.einheit || '';
   }
 
-  // „ab X €“-Angaben auf der Startseite aktualisieren
+  // „ab X €“-Angaben auf der Startseite aktualisieren (Einheit steht daneben im HTML)
   if ($('[data-preis-ab]')) {
     tarife().then(function (liste) {
       $$('[data-preis-ab]').forEach(function (e) {
         var ids = e.getAttribute('data-preis-ab').split(',');
         var preise = liste.filter(function (t) { return ids.indexOf(t.id) !== -1; }).map(function (t) { return t.preis; });
-        if (!preise.length) return;
-        var proTag = liste.some(function (t) { return ids.indexOf(t.id) !== -1 && t.abrechnung !== 'pro-termin'; });
-        e.textContent = 'ab ' + euro(Math.min.apply(null, preise)) + (proTag && /pro Tag/.test(e.textContent) ? ' pro Tag' : '');
+        if (preise.length) e.textContent = 'ab ' + euro(Math.min.apply(null, preise));
       });
     }).catch(function () { /* statischer Text bleibt stehen */ });
   }
 
-  // Preisseite
-  var tarifTabelle = $('#tarif-tabelle');
-  if (tarifTabelle) {
+  function einheitLang(t) {
+    var e = einheitText(t);
+    return /^pro /.test(e) ? e : 'pro ' + (e === '1 Tag' ? 'Tag' : e === '1 Besuch' ? 'Besuch' : e);
+  }
+
+  // Preisseite: eine TarifCard pro Tarif (Komponente des Design Systems)
+  function tarifKarte(t) {
+    var merkmale = [];
+    merkmale.push('Für ' + t.tierarten.map(function (a) { return TIERARTEN[a] || a; }).join(', '));
+    if (t.staffel) merkmale.push('Ab ' + t.staffel.abTagen + ' Tagen ' + euro(t.staffel.preis) + ' pro Tag');
+    t.zuschlaege.slice(0, t.staffel ? 1 : 2).forEach(function (z) {
+      var zusatz = z.regel === 'sonn-feiertag' ? '' : z.regel === 'optional' ? ' (wählbar)' : '';
+      merkmale.push(z.name.charAt(0).toUpperCase() + z.name.slice(1) + ' + ' + euro(z.preis) + zusatz);
+    });
+    var direkt = t.art === 'direkt';
+    var knopf = direkt
+      ? el('a', { class: 'asc-btn asc-btn--block ' + (t.empfohlen ? 'asc-btn--primary' : 'asc-btn--ghost'), href: BASIS + '/buchen?tarif=' + encodeURIComponent(t.id), text: t.empfohlen ? 'Gassi buchen' : 'Termin wählen' })
+      : el('a', { class: 'asc-btn asc-btn--accent asc-btn--block', href: BASIS + '/anfrage?tarif=' + encodeURIComponent(t.id), text: 'Betreuung anfragen' });
+    return el('article', { class: 'asc-card' + (t.empfohlen ? ' asc-card--featured' : '') }, [
+      t.empfohlen ? el('span', { class: 'asc-badge asc-badge--beliebt asc-card__badge', text: 'Beliebt' }) : null,
+      el('span', { class: 'asc-card__kicker', text: direkt ? 'Direkt buchbar' : 'Auf Anfrage' }),
+      el('h3', { class: 'asc-card__title', text: t.name }),
+      el('p', { class: 'asc-card__text', text: t.beschreibung }),
+      el('div', { class: 'asc-card__price' }, [
+        el('span', { class: 'asc-card__price-value', text: euro(t.preis) }),
+        el('span', { class: 'asc-card__price-unit', text: einheitLang(t) })
+      ]),
+      el('ul', { class: 'asc-card__list' }, merkmale.slice(0, 3).map(function (m) { return el('li', { text: m }); })),
+      el('div', { class: 'asc-card__actions' }, [knopf])
+    ]);
+  }
+
+  var tarifKarten = $$('[data-tarif-karten]');
+  if (tarifKarten.length) {
     tarife().then(function (liste) {
-      var tbody = $('tbody', tarifTabelle);
-      tbody.innerHTML = '';
-      liste.forEach(function (t) {
-        var preis = euro(t.preis);
-        var tr = el('tr', {}, [
-          el('td', {}, [el('strong', { text: t.name }), el('br'), el('span', { class: 'klein', text: t.beschreibung })]),
-          el('td', { text: t.tierarten.map(function (a) { return TIERARTEN[a] || a; }).join(', ') }),
-          el('td', { text: einheitText(t) }),
-          el('td', { class: 'zahl' }, [
-            el('span', { class: 'preis', text: preis }),
-            t.staffel ? el('span', { class: 'klein', text: ' · ab ' + t.staffel.abTagen + ' Tagen ' + euro(t.staffel.preis) + '/Tag' }) : null
-          ]),
-          el('td', {}, [
-            t.art === 'direkt'
-              ? el('a', { href: '/buchen', class: 'etikett direkt', text: 'direkt buchbar' })
-              : el('a', { href: '/anfrage', class: 'etikett', text: 'Anfrage' })
-          ])
-        ]);
-        tbody.appendChild(tr);
+      tarifKarten.forEach(function (box) {
+        var art = box.getAttribute('data-tarif-karten');
+        box.innerHTML = '';
+        liste.filter(function (t) { return t.art === art; }).forEach(function (t) { box.appendChild(tarifKarte(t)); });
       });
 
       // Zuschläge zusammenfassen: gleicher Name + Preis -> eine Zeile
@@ -204,7 +218,7 @@
         sh.remove();
       }
     }).catch(function () {
-      $('tbody', tarifTabelle).innerHTML = '<tr><td colspan="5">Die Preise konnten gerade nicht geladen werden. Bitte versuch es später noch einmal.</td></tr>';
+      tarifKarten[0].innerHTML = '<p class="hinweis warnung">Die Preise konnten gerade nicht geladen werden. Bitte versuch es später noch einmal.</p>';
     });
   }
 

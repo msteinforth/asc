@@ -69,6 +69,7 @@ function tarif_oeffentlich(array $t): array
         'abrechnung'   => $t['abrechnung'] ?? 'pro-termin',
         'preis'        => (float) $t['preis'],
         'tierarten'    => $t['tierarten'] ?? [],
+        'empfohlen'    => !empty($t['empfohlen']),
         'zuschlaege'   => array_map(fn($z) => [
             'id'    => $z['id'],
             'name'  => $z['name'],

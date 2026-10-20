@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Betreuung anfragen – ASC Animal Sitter Club</title>
   <meta name="description" content="Du bist am Wochenende oder in den Ferien weg? Frag eine Betreuung für Hund, Katze oder Kleintier an.">
-  <meta name="theme-color" content="#c2410c">
+  <meta name="theme-color" content="#fffaf3" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1e1a16" media="(prefers-color-scheme: dark)">
+  <link rel="preload" href="/assets/fonts/Fredoka-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/Fredoka-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/style.css">
   <script src="/assets/app.js" defer></script>
@@ -14,7 +17,10 @@
 <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
 <header class="kopf">
   <div class="container kopf-innen">
-    <a href="/" class="logo-link"><img src="/assets/logo.svg" alt="ASC – Animal Sitter Club, zur Startseite" width="130" height="45"></a>
+    <a href="/" class="logo-link" aria-label="ASC – Animal Sitter Club, zur Startseite">
+      <img class="logo-hell" src="/assets/logo.svg" alt="" width="111" height="48">
+      <img class="logo-dunkel" src="/assets/logo-inverse.svg" alt="" width="111" height="48">
+    </a>
     <button class="nav-schalter" type="button" aria-expanded="false" aria-controls="hauptnav">Menü</button>
     <nav class="nav" id="hauptnav" aria-label="Hauptnavigation">
       <ul>
@@ -28,7 +34,7 @@
   </div>
 </header>
 <main id="inhalt">
-<div class="container schmal">
+<div class="container schmal seiten-kopf">
   <h1>Betreuung anfragen</h1>
   <p>Du bist am Wochenende oder in den Ferien unterwegs? Sag uns, wann und für welches Tier – wir melden uns innerhalb von 24 Stunden.</p>
 
@@ -138,9 +144,10 @@
     </fieldset>
 
     <div class="preisbox" aria-live="polite" id="preisbox">
+      <p class="klein">Unverbindliche Schätzung</p>
       <p class="gesamt">ca. <span id="preis-gesamt">–</span></p>
       <ul id="preis-posten"></ul>
-      <p class="klein">Unverbindliche Schätzung. Den genauen Preis bestätigen wir dir mit unserer Zusage.</p>
+      <p class="klein">Den genauen Preis bestätigen wir dir mit unserer Zusage.</p>
     </div>
 
     <div class="feld">
@@ -155,7 +162,7 @@
     <input type="hidden" name="formToken" data-form-token>
 
     <div>
-      <button class="button" type="submit">Anfrage senden</button>
+      <button class="asc-btn asc-btn--primary asc-btn--block" type="submit">Anfrage absenden</button>
       <p class="hilfe">Du bekommst sofort eine Eingangsbestätigung per E-Mail.</p>
     </div>
   </form>

@@ -66,7 +66,7 @@ usort($liste, function ($a, $b) {
     <label for="f-q">Suche</label>
     <input type="text" id="f-q" name="q" value="<?= h($suche) ?>" placeholder="Name, E-Mail, Tier, ID">
   </div>
-  <button class="button button-klein" type="submit">Filtern</button>
+  <button class="asc-btn asc-btn--primary asc-btn--small" type="submit">Filtern</button>
 </form>
 
 <?php if (!$liste): ?>
@@ -97,6 +97,6 @@ usort($liste, function ($a, $b) {
 <form method="post" class="inline-form">
   <?= csrf_feld() ?>
   <input type="hidden" name="aktion" value="anonymisieren">
-  <button class="button button-zweit button-klein" type="submit">Anonymisierung jetzt ausführen</button>
+  <button class="asc-btn asc-btn--ghost asc-btn--small" type="submit">Anonymisierung jetzt ausführen</button>
 </form>
-<a class="button button-zweit button-klein" href="?aktion=export">Alle Buchungen als CSV</a>
+<a class="asc-btn asc-btn--ghost asc-btn--small" href="?aktion=export">Alle Buchungen als CSV</a>

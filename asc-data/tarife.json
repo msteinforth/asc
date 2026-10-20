@@ -1,5 +1,5 @@
 {
-    "hinweis": "Preise sind Platzhalter und werden vor dem Start von der Familie festgelegt. Felder: art = direkt|anfrage, abrechnung = pro-termin|pro-tag|pro-wochenende, Zuschlag-Regel = pro-weiteres-tier|sonn-feiertag|optional.",
+    "hinweis": "Preise sind Platzhalter und werden vor dem Start von der Familie festgelegt. Felder: art = direkt|anfrage, abrechnung = pro-termin|pro-tag|pro-wochenende, Zuschlag-Regel = pro-weiteres-tier|sonn-feiertag|optional. empfohlen = true zeigt den Tarif mit Rahmen und Badge „Beliebt“ (höchstens einer pro Buchungsart).",
     "tarife": [
         {
             "id": "gassi-30",
@@ -65,7 +65,8 @@
                     "regel": "optional"
                 }
             ],
-            "aktiv": true
+            "aktiv": true,
+            "empfohlen": true
         },
         {
             "id": "katzenbesuch",

@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Anfrage eingegangen – ASC Animal Sitter Club</title>
   <meta name="description" content="Danke! Deine Anfrage ist bei uns eingegangen.">
-  <meta name="theme-color" content="#c2410c">
+  <meta name="theme-color" content="#fffaf3" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1e1a16" media="(prefers-color-scheme: dark)">
+  <link rel="preload" href="/assets/fonts/Fredoka-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/Fredoka-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/style.css">
   <script src="/assets/app.js" defer></script>
@@ -14,7 +17,10 @@
 <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
 <header class="kopf">
   <div class="container kopf-innen">
-    <a href="/" class="logo-link"><img src="/assets/logo.svg" alt="ASC – Animal Sitter Club, zur Startseite" width="130" height="45"></a>
+    <a href="/" class="logo-link" aria-label="ASC – Animal Sitter Club, zur Startseite">
+      <img class="logo-hell" src="/assets/logo.svg" alt="" width="111" height="48">
+      <img class="logo-dunkel" src="/assets/logo-inverse.svg" alt="" width="111" height="48">
+    </a>
     <button class="nav-schalter" type="button" aria-expanded="false" aria-controls="hauptnav">Menü</button>
     <nav class="nav" id="hauptnav" aria-label="Hauptnavigation">
       <ul>
@@ -29,15 +35,16 @@
 </header>
 <main id="inhalt">
 <div class="container schmal">
-  <div class="held">
-    <img src="/assets/hund.svg" alt="" width="120" height="120">
+  <div class="seiten-kopf">
+    <img class="logo-hell" src="/assets/pfote.svg" alt="" width="96" height="96">
+    <img class="logo-dunkel" src="/assets/pfote-inverse.svg" alt="" width="96" height="96">
     <h1>Anfrage eingegangen – danke!</h1>
     <p class="lead" id="danke-text">Wir bestätigen innerhalb von 24 Stunden per E-Mail. Erst dann ist der Termin verbindlich.</p>
     <p>Eine Eingangsbestätigung mit allen Angaben ist schon unterwegs zu dir. <span id="danke-id"></span></p>
     <p class="hilfe">Keine Mail bekommen? Schau bitte im Spam-Ordner nach oder schreib uns an <a href="mailto:asc@steinforth.com">asc@steinforth.com</a>.</p>
     <div class="button-reihe">
-      <a class="button button-zweit" href="/">Zur Startseite</a>
-      <a class="button button-zweit" href="/buchen">Noch einen Termin buchen</a>
+      <a class="asc-btn asc-btn--ghost" href="/">Zur Startseite</a>
+      <a class="asc-btn asc-btn--ghost" href="/buchen">Noch einen Termin buchen</a>
     </div>
   </div>
 </div>

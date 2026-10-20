@@ -4,6 +4,17 @@ Webseite für **asc.steinforth.com**: Leistungen und Preise, Gassi-Termine direk
 
 Technik nach PRD: statisches HTML/CSS, etwas Vanilla-JS, PHP 8 ohne Framework, Daten in JSON-Dateien, E-Mail über PHPMailer/SMTP. Kein Build-Prozess, Deployment per SFTP.
 
+## Design
+
+Das Frontend folgt dem **ASC Design System** (https://claude.ai/artifact/XExqty8sg1mYMzELPj9yqM):
+Wiesengrün `brand`, Sonnengelb `accent`, Creme `surface`, Schrift Fredoka, Logo mit der Pfote.
+
+- Tokens stehen als CSS-Variablen oben in `asc/assets/style.css` (Namen wie in `tokens.json`), inkl. dunklem Thema per Systemeinstellung.
+- Komponenten mit den Klassen des Design Systems: `asc-btn` (primary/accent/ghost), `asc-badge`, `asc-card` (TarifCard).
+- Logos, Pfote und Fredoka-Schriften (OFL) liegen unter `asc/assets/`, Icons sind Lucide (ISC), direkt im HTML.
+- Abweichung: Text auf `accent` ist in beiden Themen `#2b2420` (`--on-accent`), weil `ink` im dunklen Thema auf Sonnengelb nur 1,8:1 Kontrast hätte.
+- `"empfohlen": true` in `tarife.json` markiert einen Tarif als „Beliebt“ (Rahmen + Badge).
+
 ## Ordnerstruktur
 
 ```

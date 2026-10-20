@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Leistungen & Preise – ASC Animal Sitter Club</title>
   <meta name="description" content="Alle Leistungen und Preise des ASC: Gassi gehen, Katzenbesuche, Tages-, Wochenend- und Ferienbetreuung sowie Kleintier-Service.">
-  <meta name="theme-color" content="#c2410c">
+  <meta name="theme-color" content="#fffaf3" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1e1a16" media="(prefers-color-scheme: dark)">
+  <link rel="preload" href="/assets/fonts/Fredoka-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/Fredoka-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/style.css">
   <script src="/assets/app.js" defer></script>
@@ -14,7 +17,10 @@
 <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
 <header class="kopf">
   <div class="container kopf-innen">
-    <a href="/" class="logo-link"><img src="/assets/logo.svg" alt="ASC – Animal Sitter Club, zur Startseite" width="130" height="45"></a>
+    <a href="/" class="logo-link" aria-label="ASC – Animal Sitter Club, zur Startseite">
+      <img class="logo-hell" src="/assets/logo.svg" alt="" width="111" height="48">
+      <img class="logo-dunkel" src="/assets/logo-inverse.svg" alt="" width="111" height="48">
+    </a>
     <button class="nav-schalter" type="button" aria-expanded="false" aria-controls="hauptnav">Menü</button>
     <nav class="nav" id="hauptnav" aria-label="Hauptnavigation">
       <ul>
@@ -28,26 +34,23 @@
   </div>
 </header>
 <main id="inhalt">
-<div class="container">
+<div class="container seiten-kopf">
   <h1>Leistungen &amp; Preise</h1>
   <p class="lead">Alle Preise sind Endpreise. Bezahlt wird erst nach der Leistung – bar oder per Überweisung.</p>
   <div class="button-reihe">
-    <a class="button" href="/buchen">Gassi buchen</a>
-    <a class="button button-zweit" href="/anfrage">Betreuung anfragen</a>
+    <a class="asc-btn asc-btn--primary" href="/buchen">Gassi buchen</a>
+    <a class="asc-btn asc-btn--accent" href="/anfrage">Betreuung anfragen</a>
   </div>
 
-  <h2>Unsere Tarife</h2>
-  <p><span class="etikett direkt">direkt buchbar</span> heißt: Du suchst dir im Kalender einen freien Termin aus. <span class="etikett">Anfrage</span> heißt: Du schickst uns deinen Zeitraum und wir melden uns.</p>
-  <div class="tabelle-rahmen">
-    <table class="preis-tabelle" id="tarif-tabelle">
-      <thead>
-        <tr><th scope="col">Leistung</th><th scope="col">Für</th><th scope="col">Einheit</th><th scope="col" class="zahl">Preis</th><th scope="col">Buchung</th></tr>
-      </thead>
-      <tbody>
-        <tr><td colspan="5">Die Preise werden geladen … <noscript>Bitte aktiviere JavaScript, um die aktuellen Preise zu sehen, oder schreib uns an <a href="mailto:asc@steinforth.com">asc@steinforth.com</a>.</noscript></td></tr>
-      </tbody>
-    </table>
+  <h2>Direkt buchbar</h2>
+  <p>Gassi und Katzenbesuch suchst du dir im Kalender aus.</p>
+  <div class="kacheln" id="tarife-direkt" data-tarif-karten="direkt">
+    <p>Die Preise werden geladen … <noscript>Bitte aktiviere JavaScript, um die aktuellen Preise zu sehen, oder schreib uns an <a href="mailto:asc@steinforth.com">asc@steinforth.com</a>.</noscript></p>
   </div>
+
+  <h2>Auf Anfrage</h2>
+  <p>Für Betreuungen über einen Zeitraum schickst du uns eine Anfrage – wir melden uns innerhalb von 24 Stunden.</p>
+  <div class="kacheln" id="tarife-anfrage" data-tarif-karten="anfrage"></div>
 
   <h2>Zuschläge &amp; Rabatte</h2>
   <div class="tabelle-rahmen">
@@ -62,7 +65,7 @@
   </ul>
 
   <section class="band" aria-labelledby="ablauf">
-    <div class="container">
+    <div>
       <h2 id="ablauf">So läuft's</h2>
       <ol class="schritte">
         <li><strong>Termin wählen.</strong><br>Gassi und Katzenbesuch buchst du im Kalender, längere Betreuungen fragst du mit Zeitraum an.</li>

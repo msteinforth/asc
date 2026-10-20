@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Team – ASC Animal Sitter Club</title>
   <meta name="description" content="Wir sind vier Geschwister, die Tiere lieben. Lern uns kennen!">
-  <meta name="theme-color" content="#c2410c">
+  <meta name="theme-color" content="#fffaf3" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1e1a16" media="(prefers-color-scheme: dark)">
+  <link rel="preload" href="/assets/fonts/Fredoka-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/Fredoka-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/style.css">
   <script src="/assets/app.js" defer></script>
@@ -14,7 +17,10 @@
 <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
 <header class="kopf">
   <div class="container kopf-innen">
-    <a href="/" class="logo-link"><img src="/assets/logo.svg" alt="ASC – Animal Sitter Club, zur Startseite" width="130" height="45"></a>
+    <a href="/" class="logo-link" aria-label="ASC – Animal Sitter Club, zur Startseite">
+      <img class="logo-hell" src="/assets/logo.svg" alt="" width="111" height="48">
+      <img class="logo-dunkel" src="/assets/logo-inverse.svg" alt="" width="111" height="48">
+    </a>
     <button class="nav-schalter" type="button" aria-expanded="false" aria-controls="hauptnav">Menü</button>
     <nav class="nav" id="hauptnav" aria-label="Hauptnavigation">
       <ul>
@@ -28,34 +34,34 @@
   </div>
 </header>
 <main id="inhalt">
-<div class="container">
+<div class="container seiten-kopf">
   <h1>Das sind wir</h1>
   <p class="lead">Wir sind vier Geschwister und lieben Tiere. Den ASC haben wir gegründet, weil wir uns gern um Hunde, Katzen und Kleintiere aus der Nachbarschaft kümmern.</p>
 
   <div class="team">
-    <article class="karte">
-      <div class="avatar"><img src="/assets/hund.svg" alt="" width="84" height="84"></div>
-      <h2 class="h3"><span class="platzhalter">[Vorname 1]</span></h2>
+    <article class="asc-card">
+      <div class="avatar"><img src="/assets/pfote.svg" alt="" width="64" height="64"></div>
+      <h2 class="asc-card__title"><span class="platzhalter">[Vorname 1]</span></h2>
       <p class="alter"><span class="platzhalter">[Alter]</span> Jahre · Lieblingstier: Hund</p>
-      <p>„<span class="platzhalter">Ich gehe am liebsten lange Runden mit großen Hunden.</span>“</p>
+      <p class="asc-card__text">„<span class="platzhalter">Ich gehe am liebsten lange Runden mit großen Hunden.</span>“</p>
     </article>
-    <article class="karte">
-      <div class="avatar"><img src="/assets/katze.svg" alt="" width="84" height="84"></div>
-      <h2 class="h3"><span class="platzhalter">[Vorname 2]</span></h2>
+    <article class="asc-card">
+      <div class="avatar gelb"><img src="/assets/pfote.svg" alt="" width="64" height="64"></div>
+      <h2 class="asc-card__title"><span class="platzhalter">[Vorname 2]</span></h2>
       <p class="alter"><span class="platzhalter">[Alter]</span> Jahre · Lieblingstier: Katze</p>
-      <p>„<span class="platzhalter">Katzen sind mein Ding – ich weiß genau, wo sie gekrault werden wollen.</span>“</p>
+      <p class="asc-card__text">„<span class="platzhalter">Katzen sind mein Ding – ich weiß genau, wo sie gekrault werden wollen.</span>“</p>
     </article>
-    <article class="karte">
-      <div class="avatar"><img src="/assets/kleintier.svg" alt="" width="84" height="84"></div>
-      <h2 class="h3"><span class="platzhalter">[Vorname 3]</span></h2>
+    <article class="asc-card">
+      <div class="avatar"><img src="/assets/pfote.svg" alt="" width="64" height="64"></div>
+      <h2 class="asc-card__title"><span class="platzhalter">[Vorname 3]</span></h2>
       <p class="alter"><span class="platzhalter">[Alter]</span> Jahre · Lieblingstier: Meerschweinchen</p>
-      <p>„<span class="platzhalter">Ich kümmere mich um Käfige, Futter und frisches Heu.</span>“</p>
+      <p class="asc-card__text">„<span class="platzhalter">Ich kümmere mich um Käfige, Futter und frisches Heu.</span>“</p>
     </article>
-    <article class="karte">
-      <div class="avatar"><img src="/assets/hund.svg" alt="" width="84" height="84"></div>
-      <h2 class="h3"><span class="platzhalter">[Vorname 4]</span></h2>
+    <article class="asc-card">
+      <div class="avatar gelb"><img src="/assets/pfote.svg" alt="" width="64" height="64"></div>
+      <h2 class="asc-card__title"><span class="platzhalter">[Vorname 4]</span></h2>
       <p class="alter"><span class="platzhalter">[Alter]</span> Jahre · Lieblingstier: Hund</p>
-      <p>„<span class="platzhalter">Ich spiele am liebsten Ball mit kleinen Hunden.</span>“</p>
+      <p class="asc-card__text">„<span class="platzhalter">Ich spiele am liebsten Ball mit kleinen Hunden.</span>“</p>
     </article>
   </div>
 
@@ -65,11 +71,11 @@
     <li>E-Mail: <a href="mailto:asc@steinforth.com">asc@steinforth.com</a></li>
     <li>Telefon: <span class="platzhalter">[Telefonnummer der Eltern]</span></li>
   </ul>
-  <p class="hilfe">Wer welches Tier übernimmt, hängt vom Alter, der Größe des Hundes und der Uhrzeit ab. Das entscheiden unsere Eltern bei jeder Buchung.</p>
+  <p class="hilfe">Die Bilder ersetzen wir durch selbstgemalte Porträts. Wer welches Tier übernimmt, hängt vom Alter, der Größe des Hundes und der Uhrzeit ab. Das entscheiden unsere Eltern bei jeder Buchung.</p>
 
   <div class="button-reihe">
-    <a class="button" href="/buchen">Gassi buchen</a>
-    <a class="button button-zweit" href="/anfrage">Betreuung anfragen</a>
+    <a class="asc-btn asc-btn--primary" href="/buchen">Gassi buchen</a>
+    <a class="asc-btn asc-btn--accent" href="/anfrage">Betreuung anfragen</a>
   </div>
 </div>
 </main>

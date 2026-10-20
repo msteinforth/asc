@@ -27,8 +27,13 @@ if (is_dir($ziel)) {
 mkdir("$ziel/assets", 0755, true);
 mkdir("$ziel/api", 0755, true);
 
-foreach (glob("$quelle/assets/*") as $datei) {
-    copy($datei, "$ziel/assets/" . basename($datei));
+$dateien = new RecursiveIteratorIterator(new RecursiveDirectoryIterator("$quelle/assets", FilesystemIterator::SKIP_DOTS));
+foreach ($dateien as $datei) {
+    $relativ = substr($datei->getPathname(), strlen("$quelle/assets/"));
+    if (!is_dir(dirname("$ziel/assets/$relativ"))) {
+        mkdir(dirname("$ziel/assets/$relativ"), 0755, true);
+    }
+    copy($datei->getPathname(), "$ziel/assets/$relativ");
 }
 
 // Vorschau hat keine Buchungen: kein Zeitfenster ist belegt.

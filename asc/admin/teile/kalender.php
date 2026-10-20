@@ -36,9 +36,9 @@ $wtNamen = [1 => 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
 <p>Klicke auf einen Tag, um ihn freizugeben oder zu sperren. Öffentlich buchbar ist aktuell <strong><?= h(datum_de($buchbarVon)) ?></strong> bis <strong><?= h(datum_de($buchbarBis)) ?></strong>.</p>
 
 <div class="kalender-kopf">
-  <a class="button button-zweit button-klein" href="?seite=kalender&amp;monat=<?= h($vorher) ?>" aria-label="Vorheriger Monat">‹</a>
+  <a class="asc-btn asc-btn--ghost asc-btn--small" href="?seite=kalender&amp;monat=<?= h($vorher) ?>" aria-label="Vorheriger Monat">‹</a>
   <h2 class="h3"><?= h($monatsnamen[(int) substr($monat, 5, 2)] . ' ' . substr($monat, 0, 4)) ?></h2>
-  <a class="button button-zweit button-klein" href="?seite=kalender&amp;monat=<?= h($nachher) ?>" aria-label="Nächster Monat">›</a>
+  <a class="asc-btn asc-btn--ghost asc-btn--small" href="?seite=kalender&amp;monat=<?= h($nachher) ?>" aria-label="Nächster Monat">›</a>
 </div>
 <div class="admin-kalender">
   <?php foreach ($wtNamen as $wt): ?><div class="wt"><?= $wt ?></div><?php endforeach; ?>
@@ -61,9 +61,9 @@ $wtNamen = [1 => 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
 </div>
 <ul class="kalender-legende">
   <li><span class="l-frei"></span>freigegeben (Uhrzeiten = Beginn der Zeitfenster)</li>
-  <li><span style="background:#fdecea"></span>gesperrt</li>
+  <li><span class="l-gesperrt"></span>gesperrt</li>
   <li><span class="l-voll"></span>nicht freigegeben</li>
-  <li><span style="box-shadow:inset 0 -4px 0 var(--orange);background:var(--grau-hell)"></span>einzeln eingestellt</li>
+  <li><span class="l-manuell"></span>einzeln eingestellt</li>
 </ul>
 
 <?php if ($gewaehlt):
@@ -74,7 +74,7 @@ $wtNamen = [1 => 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
     $angebot = array_values(array_unique(array_merge($v['standardZeitfenster'], $aktuelleFenster)));
     sort($angebot);
 ?>
-  <section class="karte" id="tag" style="margin-top:1.5rem">
+  <section class="asc-card abstand-oben" id="tag">
     <h2 class="h3"><?= h(datum_de($gewaehlt)) ?></h2>
     <p>Aktuell: <strong><?= $r['frei'] ? 'frei (' . h(implode(', ', $r['zeitfenster'])) . ')' : 'nicht buchbar' ?></strong>
       <?= $r['quelle'] === 'zeitraum' ? '– aus einem Zeitraum' : ($r['quelle'] === 'tag' ? '– einzeln eingestellt' : '') ?>
@@ -109,9 +109,9 @@ $wtNamen = [1 => 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
         </div>
       </fieldset>
       <div class="button-reihe">
-        <button class="button" name="modus" value="freigeben">Freigeben</button>
-        <button class="button button-zweit" name="modus" value="sperren">Sperren</button>
-        <?php if ($eigen): ?><button class="button button-zweit" name="modus" value="zuruecksetzen">Einzeleinstellung entfernen</button><?php endif; ?>
+        <button class="asc-btn asc-btn--primary" name="modus" value="freigeben">Freigeben</button>
+        <button class="asc-btn asc-btn--ghost" name="modus" value="sperren">Sperren</button>
+        <?php if ($eigen): ?><button class="asc-btn asc-btn--ghost" name="modus" value="zuruecksetzen">Einzeleinstellung entfernen</button><?php endif; ?>
       </div>
     </form>
   </section>
@@ -127,7 +127,7 @@ $wtNamen = [1 => 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
     <?php foreach ($v['zeitraeume'] as $i => $z): ?>
       <tr>
         <td><?= h(datum_de($z['von'], false)) ?> – <?= h(datum_de($z['bis'], false)) ?></td>
-        <td><?= ($z['aktion'] ?? '') === 'sperren' ? '<span class="status status-abgelehnt">sperren</span>' : '<span class="status status-bestaetigt">freigeben</span>' ?></td>
+        <td><?= ($z['aktion'] ?? '') === 'sperren' ? '<span class="asc-badge asc-badge--warning">sperren</span>' : '<span class="asc-badge asc-badge--success">freigeben</span>' ?></td>
         <td><?= !empty($z['wochentage']) ? h(implode(', ', array_map(fn($w) => $wtNamen[(int) $w] ?? $w, $z['wochentage']))) : 'alle' ?></td>
         <td><?= ($z['aktion'] ?? '') === 'sperren' ? '–' : h(implode(', ', $z['zeitfenster'] ?? []) ?: 'Standard') ?></td>
         <td><?= h($z['notiz'] ?? '') ?></td>
@@ -136,7 +136,7 @@ $wtNamen = [1 => 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
             <?= csrf_feld() ?>
             <input type="hidden" name="aktion" value="zeitraum-loeschen">
             <input type="hidden" name="index" value="<?= (int) $i ?>">
-            <button class="button button-zweit button-klein" type="submit">Löschen</button>
+            <button class="asc-btn asc-btn--ghost asc-btn--small" type="submit">Löschen</button>
           </form>
         </td>
       </tr>
@@ -146,7 +146,7 @@ $wtNamen = [1 => 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
 </div>
 <?php endif; ?>
 
-<form method="post" class="formular karte" style="margin-top:1rem">
+<form method="post" class="formular asc-card abstand-oben">
   <?= csrf_feld() ?>
   <input type="hidden" name="aktion" value="zeitraum-neu">
   <h3>Neuer Zeitraum</h3>
@@ -178,11 +178,11 @@ $wtNamen = [1 => 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
     </div>
   </div>
   <div class="feld"><label for="z-notiz">Notiz</label><input type="text" id="z-notiz" name="notiz" maxlength="120" placeholder="z. B. Herbstferien, Prüfungswoche"></div>
-  <div><button class="button" type="submit">Zeitraum hinzufügen</button></div>
+  <div><button class="asc-btn asc-btn--primary" type="submit">Zeitraum hinzufügen</button></div>
 </form>
 
 <h2 id="einstellungen">Einstellungen</h2>
-<form method="post" class="formular karte">
+<form method="post" class="formular asc-card">
   <?= csrf_feld() ?>
   <input type="hidden" name="aktion" value="einstellungen">
   <div class="feld">
@@ -197,5 +197,5 @@ $wtNamen = [1 => 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
     <div class="feld"><label for="vorlauf">Frühestens buchbar in … Tagen</label><input type="number" id="vorlauf" name="vorlaufTage" min="0" max="14" value="<?= (int) $v['vorlaufTage'] ?>"></div>
     <div class="feld"><label for="wochen">Kalender reicht … Wochen voraus</label><input type="number" id="wochen" name="wochenVoraus" min="1" max="26" value="<?= (int) $v['wochenVoraus'] ?>"></div>
   </div>
-  <div><button class="button button-zweit" type="submit">Speichern</button></div>
+  <div><button class="asc-btn asc-btn--ghost" type="submit">Speichern</button></div>
 </form>
