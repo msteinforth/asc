@@ -13,7 +13,8 @@ Wiesengrün `brand`, Sonnengelb `accent`, Creme `surface`, Schrift Fredoka, Logo
 - Komponenten mit den Klassen des Design Systems: `asc-btn` (primary/accent/ghost), `asc-badge`, `asc-card` (TarifCard).
 - Logo „Hüpfend“ aus dem Design System: `logo.svg` in Kopfzeile (auch am Handy) und Fuß, 56px hoch; `logo-inverse.svg` im dunklen Thema per `<picture>`. Favicon ist die Pfote.
 - Schriften (OFL) unter `asc/assets/fonts/`: Fredoka; Patrick Hand nur für kurze Zitate der Kinder (`.hand-note`).
-- Tier-Illustrationen (Hund, Katze, Kaninchen) unter `asc/assets/tiere/`, nur in Farben des Design Systems; auf der Team-Seite Platzhalter für die selbstgemalten Porträts.
+- Tier-Illustrationen (Hund, Katze, Kaninchen) unter `asc/assets/tiere/`, nur in Farben des Design Systems.
+- Gemalte Bilder der Kinder unter `asc/assets/team/` (WebP, 640×800, Farben ans Design angeglichen). Wer noch kein Bild hat, zeigt auf der Team-Seite ein Tier auf `brand-soft`/`accent-soft`. Neues Bild: Datei dort ablegen und in `team.html` das `<div class="portrait">` der Person anpassen.
 - Kleine Funktions-Icons (Telefon, Ort, Kalender) sind Lucide (ISC), direkt im HTML.
 - Abweichung: Text auf `accent` ist in beiden Themen `#2b2420` (`--on-accent`), weil `ink` im dunklen Thema auf Sonnengelb nur 1,8:1 Kontrast hätte.
 - `"empfohlen": true` in `tarife.json` markiert einen Tarif als „Beliebt“ (Rahmen + Badge).
