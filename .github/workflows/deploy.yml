@@ -73,10 +73,27 @@ jobs:
           cp -a asc paket/asc
           php tools/config-erzeugen.php paket/asc/lib/config.php
 
+      - name: SFTP-Verbindung testen
+        if: steps.bereit.outputs.ok == 'true'
+        run: |
+          sudo apt-get install -y -qq lftp sshpass > /dev/null
+          host="${SFTP_HOST%%:*}"; port="22"; [ "$host" != "$SFTP_HOST" ] && port="${SFTP_HOST##*:}"
+          echo "Server: $host, Port: $port, Benutzerlänge: ${#SFTP_USER} Zeichen"
+          set +e
+          echo pwd | SSHPASS="$LFTP_PASSWORD" timeout 60 sshpass -e sftp -v -P "$port" \
+            -o StrictHostKeyChecking=accept-new -o PubkeyAuthentication=no \
+            -o PreferredAuthentications=password,keyboard-interactive \
+            -o ConnectTimeout=20 -b - "$SFTP_USER@$host" > sftp.log 2>&1
+          code=$?
+          set -e
+          # Nur die aufschlussreichen Zeilen zeigen (keine Passwörter enthalten)
+          grep -E "Connecting|Connection established|Remote protocol|Server host key|Authentications that can continue|Authenticated|Permission denied|Connection closed|Connection reset|refused|timed out|Remote working directory|Received disconnect|banner|Too many" sftp.log | sed "s/$SFTP_USER/<benutzer>/g" || true
+          echo "sftp exit code: $code"
+          [ "$code" = "0" ] || { echo "::error::SFTP-Anmeldung fehlgeschlagen – Details siehe oben"; exit 1; }
+
       - name: Per SFTP hochladen
         if: steps.bereit.outputs.ok == 'true'
         run: |
-          sudo apt-get install -y -qq lftp > /dev/null
           lftp -c "
             set sftp:auto-confirm yes;
             set net:max-retries 2; set net:timeout 30; set net:reconnect-interval-base 5;
