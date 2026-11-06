@@ -97,4 +97,4 @@ Backup: `asc-data/` regelmäßig per SFTP herunterladen (oder CSV-Export im Admi
 
 ## Offen vor dem Start (aus dem PRD)
 
-Endgültige Preise, Team-Texte (Lieblingstier und Satz der Kinder), Anschrift für Impressum/Datenschutz, Betreuung „bei uns“ ja/nein, Haftpflicht, Datenschutztext prüfen lassen.
+Endgültige Preise, Team-Texte (Lieblingstier und Satz der Kinder), Betreuung „bei uns“ ja/nein, Haftpflicht, Datenschutztext prüfen lassen.
