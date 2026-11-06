@@ -83,9 +83,10 @@ jobs:
           echo pwd | SSHPASS="$LFTP_PASSWORD" timeout 60 sshpass -e sftp -v -P "$port" \
             -o StrictHostKeyChecking=accept-new -o PubkeyAuthentication=no \
             -o PreferredAuthentications=password,keyboard-interactive \
-            -o ConnectTimeout=20 -b - "$SFTP_USER@$host" > sftp.log 2>&1
+            -o ConnectTimeout=20 -o BatchMode=no "$SFTP_USER@$host" > sftp.log 2>&1
           code=$?
           set -e
+          # Befehle kommen über stdin statt "-b": "-b" schaltet BatchMode ein und damit die Passwort-Anmeldung ab.
           # Nur die aufschlussreichen Zeilen zeigen (keine Passwörter enthalten)
           grep -E "Connecting|Connection established|Remote protocol|Server host key|Authentications that can continue|Authenticated|Permission denied|Connection closed|Connection reset|refused|timed out|Remote working directory|Received disconnect|banner|Too many" sftp.log | sed "s/$SFTP_USER/<benutzer>/g" || true
           echo "sftp exit code: $code"
