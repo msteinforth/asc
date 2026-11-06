@@ -70,6 +70,18 @@ function buchung_aendern(string $id, callable $aendern): array
     }, []);
 }
 
+/** Entfernt eine Buchung endgültig (z. B. Testbuchung oder Löschwunsch nach DSGVO). */
+function buchung_loeschen(string $id): void
+{
+    json_aendern('buchungen.json', function (array $buchungen) use ($id) {
+        $rest = array_values(array_filter($buchungen, fn($b) => ($b['id'] ?? '') !== $id));
+        if (count($rest) === count($buchungen)) {
+            throw new DomainException('Buchung nicht gefunden.');
+        }
+        return $rest;
+    }, []);
+}
+
 /** Setzt den Status einer Buchung und protokolliert die Änderung. */
 function buchung_status_setzen(string $id, string $status, string $notiz = ''): array
 {

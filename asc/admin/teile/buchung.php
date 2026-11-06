@@ -135,3 +135,13 @@ if ($b['typ'] === 'betreuung') {
   </div>
   <div><button class="asc-btn asc-btn--ghost" type="submit">Speichern</button></div>
 </form>
+
+<h2>Buchung löschen</h2>
+<form method="post" class="formular asc-card" onsubmit="return confirm('Buchung <?= h($b['id']) ?> wirklich endgültig löschen?')">
+  <?= csrf_feld() ?>
+  <input type="hidden" name="aktion" value="buchung-loeschen">
+  <input type="hidden" name="id" value="<?= h($b['id']) ?>">
+  <p class="klein">Für Testbuchungen oder wenn ein Kunde die Löschung seiner Daten verlangt. Die Buchung verschwindet vollständig, auch aus Statistik und CSV-Export. Der Kunde bekommt keine Mail.</p>
+  <label class="auswahl"><input type="checkbox" name="bestaetigt" value="1" required> Ja, diese Buchung endgültig löschen</label>
+  <div><button class="asc-btn asc-btn--ghost" type="submit">Endgültig löschen</button></div>
+</form>

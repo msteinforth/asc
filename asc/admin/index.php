@@ -69,6 +69,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
                 weiter('?seite=buchung&id=' . rawurlencode($id), $info);
 
+            case 'buchung-loeschen':
+                $id = text_feld($_POST, 'id', 30);
+                if (empty($_POST['bestaetigt'])) {
+                    throw new DomainException('Bitte bestätige das Löschen mit dem Häkchen.');
+                }
+                buchung_loeschen($id);
+                weiter('?seite=buchungen', "Buchung $id wurde endgültig gelöscht.");
+
             case 'buchung-bearbeiten':
                 $id = text_feld($_POST, 'id', 30);
                 $preis = zahl_eingabe($_POST['preisGesamt'] ?? 0);

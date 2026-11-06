@@ -167,6 +167,15 @@ buchungen_csv($csv, [['kunde' => ['name' => '=HYPERLINK("x")'] + $b['kunde']] + 
 rewind($csv);
 pruefe('CSV schützt vor Formeln', str_contains(stream_get_contents($csv), "'=HYPERLINK"), true);
 
+echo "Löschen\n";
+$vorher = count(buchungen_laden());
+buchung_loeschen($b1['id']);
+pruefe('Buchung gelöscht', count(buchungen_laden()), $vorher - 1);
+pruefe('gelöschte Buchung nicht mehr auffindbar', buchung_finden($b1['id']), null);
+$fehler = null;
+try { buchung_loeschen('b-gibt-es-nicht'); } catch (DomainException $e) { $fehler = $e->getMessage(); }
+pruefe('unbekannte ID meldet Fehler', $fehler !== null, true);
+
 echo "Mails\n";
 $vorher = glob("$tmp/mails/*.eml") ?: [];
 mail_familie_neu(buchung_finden($b2['id']));
