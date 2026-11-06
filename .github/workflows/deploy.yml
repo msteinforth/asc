@@ -1,0 +1,100 @@
+# Lädt die Webseite per SFTP zu Strato hoch (asc.steinforth.com).
+#
+# Benötigte Repository-Secrets (Settings → Secrets and variables → Actions):
+#   STRATO_SFTP_HOST      z. B. ssh.strato.de
+#   STRATO_SFTP_USER      SFTP-Benutzer aus dem Strato-Kundencenter
+#   STRATO_SFTP_PASSWORT  SFTP-Passwort
+#   ASC_SMTP_PASSWORT     Passwort des Postfachs asc@steinforth.com
+#   ASC_ADMIN_PASSWORT    Passwort für /admin (mind. 10 Zeichen, Benutzer: admin)
+# Optionale Repository-Variablen:
+#   STRATO_PFAD           Ordner auf dem Server, in dem /asc und /asc-data liegen (Standard: .)
+#   ASC_BASE_URL          Adresse der Seite (Standard: https://asc.steinforth.com)
+#
+# Ohne Secrets wird der Upload übersprungen, damit Pushes nicht rot werden.
+# Der Datenordner asc-data wird nie überschrieben: nur fehlende Dateien kommen hinzu.
+name: Deploy zu Strato
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-strato
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      SFTP_HOST: ${{ secrets.STRATO_SFTP_HOST }}
+      SFTP_USER: ${{ secrets.STRATO_SFTP_USER }}
+      LFTP_PASSWORD: ${{ secrets.STRATO_SFTP_PASSWORT }}
+      ASC_SMTP_PASSWORT: ${{ secrets.ASC_SMTP_PASSWORT }}
+      ASC_ADMIN_PASSWORT: ${{ secrets.ASC_ADMIN_PASSWORT }}
+      ASC_BASE_URL: ${{ vars.ASC_BASE_URL || 'https://asc.steinforth.com' }}
+      PFAD: ${{ vars.STRATO_PFAD || '.' }}
+    steps:
+      - name: Secrets prüfen
+        id: bereit
+        run: |
+          fehlend=""
+          for n in SFTP_HOST SFTP_USER LFTP_PASSWORD ASC_SMTP_PASSWORT ASC_ADMIN_PASSWORT; do
+            [ -z "${!n}" ] && fehlend="$fehlend $n"
+          done
+          if [ -n "$fehlend" ]; then
+            echo "::notice::Upload übersprungen – fehlende Secrets:$fehlend"
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.bereit.outputs.ok == 'true'
+
+      - uses: shivammathur/setup-php@v2
+        if: steps.bereit.outputs.ok == 'true'
+        with:
+          php-version: "8.2"
+          extensions: mbstring
+          coverage: none
+
+      - name: Tests
+        if: steps.bereit.outputs.ok == 'true'
+        run: php tests/run.php
+
+      - name: Paket mit config.php bauen
+        if: steps.bereit.outputs.ok == 'true'
+        run: |
+          mkdir -p paket
+          cp -a asc paket/asc
+          php tools/config-erzeugen.php paket/asc/lib/config.php
+
+      - name: Per SFTP hochladen
+        if: steps.bereit.outputs.ok == 'true'
+        run: |
+          sudo apt-get install -y -qq lftp > /dev/null
+          lftp -c "
+            set sftp:auto-confirm yes;
+            set net:max-retries 2; set net:timeout 30; set net:reconnect-interval-base 5;
+            open --env-password -u \"$SFTP_USER\" \"sftp://$SFTP_HOST\";
+            mkdir -p -f \"$PFAD/asc\" \"$PFAD/asc-data\";
+            mirror -R --no-perms --parallel=4 --verbose=1 paket/asc \"$PFAD/asc\";
+            mirror -R --no-perms --only-missing --verbose=1 asc-data \"$PFAD/asc-data\";
+          "
+
+      - name: Seite prüfen
+        if: steps.bereit.outputs.ok == 'true'
+        run: |
+          set -e
+          sleep 5
+          curl -fsS -o /dev/null "$ASC_BASE_URL/"
+          curl -fsS "$ASC_BASE_URL/api/tarife.php" | grep -q '"tarife"'
+          code=$(curl -s -o /dev/null -w '%{http_code}' "$ASC_BASE_URL/lib/config.php")
+          [ "$code" = "403" ] || { echo "::error::lib/config.php ist erreichbar (HTTP $code) – .htaccess greift nicht!"; exit 1; }
+          code=$(curl -s -o /dev/null -w '%{http_code}' "$ASC_BASE_URL/admin/")
+          [ "$code" = "401" ] || { echo "::error::/admin antwortet mit HTTP $code statt 401"; exit 1; }
+          echo "Seite läuft: $ASC_BASE_URL"

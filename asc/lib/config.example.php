@@ -15,8 +15,9 @@ return [
     'data_dir' => __DIR__ . '/../../asc-data',
 
     // Geheimer Schlüssel für die signierten Links und den Spam-Schutz.
-    // Erzeugen z. B. mit: php -r "echo bin2hex(random_bytes(32)), PHP_EOL;"
-    'secret' => 'BITTE-AENDERN-lokaler-entwicklungsschluessel',
+    // Leer lassen: Dann wird er beim ersten Aufruf zufällig erzeugt und als
+    // <data_dir>/geheimnis.key gespeichert (bleibt über Uploads hinweg gleich).
+    'secret' => '',
 
     // Gemeinsame Familien-Adresse: hier landen alle Buchungen und Anfragen.
     'familie_email' => 'asc@steinforth.com',
@@ -53,10 +54,9 @@ return [
     // Zeitzone für Datum/Uhrzeit.
     'zeitzone' => 'Europe/Berlin',
 
-    // Optionaler Admin-Schutz direkt in PHP (zusätzlich oder statt .htaccess/.htpasswd).
-    // Praktisch für die lokale Entwicklung mit `php -S`, wo .htaccess nicht greift.
+    // Login für /admin (HTTP Basic Auth, von PHP geprüft). Auf dem Server Pflicht:
+    // ohne diese Angaben bleibt der Admin-Bereich gesperrt.
     // Hash erzeugen mit: php -r "echo password_hash('meinpasswort', PASSWORD_DEFAULT), PHP_EOL;"
-    // Leer lassen (null), wenn nur .htaccess verwendet wird.
     'admin_login' => [
         'user'          => 'admin',
         'password_hash' => '$2y$10$J/LBsaQDDBPnyPjaMCOguuzippyuweVNifvo/7OXJ.BxgM8IoAOKa', // lokal: admin / admin

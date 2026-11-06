@@ -27,11 +27,12 @@ asc/                  Webroot (Subdomain asc.steinforth.com zeigt hierhin)
   assets/             style.css, app.js, logo.svg, Tier-Illustrationen
   api/                buchen.php, anfrage.php, bestaetigen.php, tarife.php,
                       verfuegbarkeit.php, preis.php, token.php
-  admin/              index.php (+ teile/, .htaccess für Basic Auth)
+  admin/              index.php (+ teile/), Login per PHP (admin_login in config.php)
   lib/                PHP-Logik, PHPMailer, config.example.php (gesperrt per .htaccess)
 asc-data/             tarife.json, verfuegbarkeit.json, buchungen.json (außerhalb des Webroots)
 tests/run.php         Tests der Kernlogik
 tools/pages-build.php statische Vorschau für GitHub Pages
+tools/config-erzeugen.php  config.php für Strato aus den GitHub-Secrets
 dev-router.php        nur für die lokale Entwicklung
 ```
 
@@ -79,24 +80,33 @@ und ein Hinweisbalken weist darauf hin. Admin-Bereich und API sind nicht enthalt
 - Lokal ausprobieren: `php tools/pages-build.php _site` und `_site` mit einem beliebigen Webserver ausliefern.
 - Einmalig nötig: im Repository unter *Settings → Pages* bei *Source* „GitHub Actions“ auswählen.
 
-## Deployment auf Strato (später)
+## Deployment auf Strato
 
-1. Subdomain `asc.steinforth.com` im Kundencenter anlegen und auf den Ordner `/asc` zeigen lassen, SSL aktivieren.
-2. `asc/` nach `/asc` und `asc-data/` nach `/asc-data` (neben, nicht in den Webroot) hochladen. `dev-router.php` und `tests/` nicht hochladen.
-   **Achtung:** Nach dem Start `asc-data/` nicht mehr überschreiben – dort liegen die echten Buchungen und die im Admin geänderten Tarife.
-3. `asc/lib/config.example.php` nach `asc/lib/config.php` kopieren und anpassen:
-   - `base_url` → `https://asc.steinforth.com`
-   - `data_dir` → absoluter Pfad zu `/asc-data`
-   - `secret` → neu erzeugen: `php -r "echo bin2hex(random_bytes(32));"`
-   - `mail.transport` → `smtp`, SMTP-Passwort des Postfachs asc@steinforth.com eintragen
-   - `kontakt_telefon` eintragen
-   - `admin_login` → eigenes Passwort-Hash setzen oder `null`, wenn nur `.htaccess` genutzt wird
-4. Admin-Schutz: `.htpasswd` in `asc/admin/` anlegen und in `asc/admin/.htaccess` den absoluten Pfad bei `AuthUserFile` eintragen.
-5. Schreibrechte für `asc-data/` prüfen (PHP muss dort schreiben können).
-6. Kann `asc-data` nicht außerhalb des Webroots liegen, schützt die mitgelieferte `asc-data/.htaccess` (`Require all denied`) den Ordner.
-7. Test: eine Buchung mit eigener Mailadresse durchspielen, Bestätigungslink klicken.
+Automatisch per GitHub Actions (`.github/workflows/deploy.yml`) bei jedem Push auf `main`:
+Tests → `config.php` aus Secrets erzeugen (`tools/config-erzeugen.php`) → Upload per SFTP → Prüfung der Live-Seite
+(Startseite, API, `lib/config.php` gesperrt, `/admin` verlangt Login). Ohne Secrets wird der Upload übersprungen.
 
-Backup: `asc-data/` wöchentlich per SFTP herunterladen (oder CSV-Export im Admin).
+**Einmalig bei Strato:** Subdomain `asc.steinforth.com` auf den Ordner `/asc` zeigen lassen, SSL aktivieren,
+PHP 8.2+ einstellen, Postfach `asc@steinforth.com` anlegen, SFTP-Zugang nachsehen.
+
+**Einmalig bei GitHub** (*Settings → Secrets and variables → Actions → Secrets*):
+
+| Secret | Inhalt |
+| --- | --- |
+| `STRATO_SFTP_HOST` | SFTP-Server, meist `ssh.strato.de` |
+| `STRATO_SFTP_USER` | SFTP-Benutzer aus dem Strato-Kundencenter |
+| `STRATO_SFTP_PASSWORT` | SFTP-Passwort |
+| `ASC_SMTP_PASSWORT` | Passwort des Postfachs asc@steinforth.com |
+| `ASC_ADMIN_PASSWORT` | Passwort für `/admin` (mind. 10 Zeichen, Benutzer `admin`) |
+
+Optional als *Variables*: `STRATO_PFAD` (Ordner, in dem `asc/` und `asc-data/` liegen, Standard `.` = Startordner des SFTP-Zugangs)
+und `ASC_BASE_URL` (Standard `https://asc.steinforth.com`).
+
+**Was hochgeladen wird:** `asc/` vollständig nach `/asc` (nichts wird gelöscht), `asc-data/` nach `/asc-data`, aber **nur fehlende Dateien** –
+Buchungen und im Admin geänderte Tarife/Verfügbarkeiten werden nie überschrieben. Der geheime Schlüssel für die Bestätigungslinks
+entsteht beim ersten Aufruf auf dem Server (`asc-data/geheimnis.key`). Der Admin-Login wird von PHP geprüft, eine `.htpasswd` ist nicht nötig.
+
+Backup: `asc-data/` regelmäßig per SFTP herunterladen (oder CSV-Export im Admin).
 
 ## Offen vor dem Start (aus dem PRD)
 

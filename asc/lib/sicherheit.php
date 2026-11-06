@@ -4,11 +4,33 @@
  */
 declare(strict_types=1);
 
+/**
+ * Geheimer Schlüssel für signierte Links und Formular-Tokens.
+ * Steht er nicht in der Konfiguration, wird er einmalig zufällig erzeugt und im
+ * Datenordner gespeichert. So bleibt er über alle Uploads hinweg gleich und muss
+ * nirgends eingetragen werden.
+ */
 function geheimnis(): string
 {
+    static $s = null;
+    if ($s !== null) {
+        return $s;
+    }
     $s = (string) config('secret');
+    if ($s === '') {
+        $pfad = daten_pfad('geheimnis.key');
+        if (!is_file($pfad)) {
+            $fh = fopen($pfad, 'x');
+            if ($fh !== false) {
+                fwrite($fh, bin2hex(random_bytes(32)));
+                fclose($fh);
+                @chmod($pfad, 0600);
+            }
+        }
+        $s = trim((string) file_get_contents($pfad));
+    }
     if (strlen($s) < 16) {
-        throw new RuntimeException('In config.php muss ein "secret" mit mindestens 16 Zeichen gesetzt sein.');
+        throw new RuntimeException('Kein gültiger geheimer Schlüssel (config "secret" oder Datei geheimnis.key).');
     }
     return $s;
 }
@@ -90,7 +112,12 @@ function admin_schutz(): void
 {
     $login = config('admin_login');
     if (empty($login['user']) || empty($login['password_hash'])) {
-        return;
+        // Ohne Login-Daten nur lokal offen; auf dem Server bleibt der Admin-Bereich gesperrt.
+        if (PHP_SAPI === 'cli-server') {
+            return;
+        }
+        http_response_code(503);
+        exit('Admin-Zugang ist nicht eingerichtet (admin_login in config.php fehlt).');
     }
     // Wurde bereits per .htaccess/.htpasswd angemeldet, nicht doppelt fragen.
     if (!empty($_SERVER['REMOTE_USER']) || !empty($_SERVER['REDIRECT_REMOTE_USER'])) {
@@ -98,8 +125,10 @@ function admin_schutz(): void
     }
     $user = $_SERVER['PHP_AUTH_USER'] ?? null;
     $pass = $_SERVER['PHP_AUTH_PW'] ?? null;
-    if ($user === null && !empty($_SERVER['HTTP_AUTHORIZATION']) && str_starts_with($_SERVER['HTTP_AUTHORIZATION'], 'Basic ')) {
-        [$user, $pass] = array_pad(explode(':', (string) base64_decode(substr($_SERVER['HTTP_AUTHORIZATION'], 6)), 2), 2, null);
+    // Unter CGI/FastCGI (Strato) kommt der Header nur über die RewriteRule in .htaccess an
+    $kopf = $_SERVER['HTTP_AUTHORIZATION'] ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ?? '';
+    if ($user === null && str_starts_with($kopf, 'Basic ')) {
+        [$user, $pass] = array_pad(explode(':', (string) base64_decode(substr($kopf, 6)), 2), 2, null);
     }
     if ($user !== null && hash_equals((string) $login['user'], (string) $user) && password_verify((string) $pass, (string) $login['password_hash'])) {
         return;

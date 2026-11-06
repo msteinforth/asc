@@ -13,3 +13,4 @@ tests/tmp/
 .DS_Store
 *.swp
 _site/
+geheimnis.key
